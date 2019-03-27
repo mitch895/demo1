@@ -19,9 +19,9 @@
 <h1>
 <!--- insert title here --->
 </h1><h5>
-<!-- add subtitle here:
+<!---- add subtitle here---
 Cashflow & Investment Optimiser - Demo v4.23 (JavaScript / HTML)
--->
+--->
 </h5>
 
 <style>
@@ -179,7 +179,7 @@ output:hover { color: yellow}
  
  
  
- <fieldset  style=" background-color:#a65eff  ;"  >
+ <fieldset  style=" background-color:OrangeRed  ;"  >
 
  <label   style="color:white ;"     for ="disclaimer" >   I understand this calculator is for general informational purposes only, and is not to be interpreted as, or relied upon as personal advice  <i>   (type "YES" to proceed) </i>  </label>
  <input type="text" id="disclaimer" name="disclaimer" placeholder="YES or NO" oninput=calculate()>
@@ -192,7 +192,7 @@ output:hover { color: yellow}
        </legend>
       <label for="income"  >Gross Income ($): </label>
        <input type="text"id="income" name="grossincome"  
-       placeholder="Gross Income (excl super)" oninput= calculate()    >
+       value="87214" oninput= calculate()    >
  
  
        <label for="extrasuper"  ><i>Additional Super Cont's ($): </i></label>
@@ -256,7 +256,7 @@ Way to do this...
           <label for="expenses">
  Household Expenses ($):</label>
          <input type="text"id="expenses" name="expenses"
-         placeholder = "Total expenses" oninput= calculate()    >
+         placeholder = "Gross Income (ex Super)" oninput= calculate()    >
   
         </fieldset><p>  </p>
   
@@ -773,32 +773,6 @@ Assets & Liabilities
             <p> </p>
           
           <!--- testing --->
-          
-
-
-
-
-
-
-
-
-
-
-
-
-          
-          
-          
-          
-          
-          
-          
-          
-          
-
-         
-         
-         
          
          <!---    end section for investment return stuff --->
          
@@ -809,9 +783,11 @@ Assets & Liabilities
          
            <!--- in this part we will have a part that pops up with outputs with tax, ATI etc, once gross income has been entereed --->
           
+<button onclick="myFunction()">Print this page</button>
          
       
       </div></div></div1>
+
 
  
  
@@ -2288,7 +2264,7 @@ var ratio_ncc = Math.pow((1+netrtn),yearstoretirement)
 //// now we have the max number, we need to find which option this applies to and direct the surplus to that option
 
 
-/// ADD CONTROL MECHANISM TO ENSURE A NEGATIVE SURPLUS GOES TO DEBT (FUNDED BY DEBT) ####  ////
+//// ADD CONTROL MECHANISM TO ENSURE A NEGATIVE SURPLUS GOES TO DEBT (FUNDED BY DEBT) ####  ////
 
 var surplus1 = Math.max(0,surplus)
 var surplus1_if_neg = Math.min(0,surplus)
@@ -3422,5 +3398,20 @@ document.getElementById("retireY3").innerHTML =
 }
 
 </script>
+
+<!-- print function -->
+
+<script>
+function myFunction() {
+  window.print();
+}
+</script>
+
+
+
+
+
+
+
 
 </html>
