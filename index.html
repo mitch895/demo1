@@ -139,7 +139,7 @@ output:hover { color: yellow}
 
  .fieldoutput {
       background-color:blue;
-      color: red;
+      color: blue;
       text-align: center;
       border: dashed;
    
@@ -192,7 +192,7 @@ output:hover { color: yellow}
        </legend>
       <label for="income"  >Gross Income ($): </label>
        <input type="text"id="income" name="grossincome"  
-       value="87214" oninput= calculate()    >
+       placeholder="Gross Income (excl. super)" oninput= calculate()    >
  
  
        <label for="extrasuper"  ><i>Additional Super Cont's ($): </i></label>
@@ -209,7 +209,7 @@ output:hover { color: yellow}
           
           <div class = "fieldoutput">
           <strong>
-          <fieldset>
+          <fieldset  style=" background-color:#fbff8e  ;" >
           
           <output id = "netincome"></output> </fieldset>
            </strong>
@@ -256,7 +256,7 @@ Way to do this...
           <label for="expenses">
  Household Expenses ($):</label>
          <input type="text"id="expenses" name="expenses"
-         value = "65000" oninput= calculate()    >
+         placeholder = "Total household expenses" oninput= calculate()    >
   
         </fieldset><p>  </p>
   
@@ -264,8 +264,8 @@ Way to do this...
             
    <!--- this section will pop up with Savings Capacity ($): --->
      <div class = "fieldoutput">
-       <fieldset>
-    <output id = "surplus"></output>
+       <fieldset   style=" background-color:#fbff8e  ;" >
+       <strong><output id = "surplus"></output></strong>
     </fieldset></div>
     
     <!--- Asset & liability - basic record --->
@@ -318,7 +318,7 @@ Way to do this...
  <!-- unallocated output -->
  <div class="fieldoutput">
  
- <fieldset><div class="focus">
+ <fieldset  style=" background-color:#fbff8e  ;"  ><div class="focus">
  
  
  <output id = "unallocated1"></output></div>
@@ -340,20 +340,20 @@ Assets & Liabilities
 <!--- CASH EXISTING SAVINGS --->
 
              <label for="cashsavings"> Cash savings($):</label> 
-             <input type =text value = "5000" 
+             <input type =text value = "0" 
              id="cashsavings" name=cashsavings
              oninput=calculate() ><br>
 
 <!--- SUPER EXISTING SAVINGS --->
 
              <label for="superbalance"> Super balance ($):</label> 
-             <input type =text value = "170000" 
+             <input type =text value = "0" 
              id="superbalance" name=superbalance oninput=calculate() ><br>
              <label for="otherinvest"> Other Invest Assets ($):</label> 
-             <input type =text value="50000" 
+             <input type =text value="0" 
              id="otherinvest" name="otherinvest" oninput=calculate() ><br>
              <label for="debtbalance"> Debt balance ($):</label> 
-             <input type =text  value = "80000" 
+             <input type =text  value = "0" 
              id="debtbalance" name=debtbalance oninput=calculate() ><br>
              
              
