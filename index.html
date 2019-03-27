@@ -1,0 +1,3426 @@
+<!--- things to test...
+
+*title with shadow text
+*Navigation menu at top, with hozer
+*Input sections tidy <in a form layout>
+*INput and output in two columns that float
+--->
+<html>
+
+
+
+
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+
+<h1>
+<!--- insert title here --->
+</h1><h5>
+<!---- add subtitle here---
+Cashflow & Investment Optimiser - Demo v4.23 (JavaScript / HTML)
+--->
+</h5>
+
+<style>
+
+/* first stuff for navigation menu */
+ul { list-style-type: none; margin: 7; padding: 0; overflow: hidden; background-color:powderblue;}
+li { float: left;}
+li a {
+  display: inline-block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  color: yellow;
+}
+li a:hover {background-color: yellow; color: blue;}
+.active{ background-color: darkblue;
+color: yellow;}
+
+/* text shadow */
+h1 {color:darkblue; text-shadow: 2px 1px tomato;    }
+
+h5 {color: tomato; text-shadow: 1px 2px yellow;}
+
+/* style input form -- ref div1 */
+input[type=text], select {
+  width: auto;
+ padding-right: 10%;
+ float: right;
+  margin: 2px 5px;
+  display: inline-block;
+  border: 3px solid:blue;
+  box-sizing: border-box;
+  background-color: yellow;
+  color:blue;
+}
+
+label {
+  width: auto;
+  padding: 3px 3px;
+  margin: 2px 2px;
+  float: left;
+  clear: left;
+  display: inline-block;
+  border: 3px solid:yellow;
+  box-sizing: border-box;
+  background-color: auto;
+  color:darkblue;
+}
+      legend { color: #0000ff}
+  /* CSS for columns  l & r  */
+        .row { display: flex;}
+        .columnA { flex:50%; padding: 10px;}
+         .columnB { flex:50%; padding: 10px;}
+        .output { flex: 50%; padding: 10px 20px; color:#26004d; float:left; background-color: lightyellow;}
+  
+      fieldset {background-color:powderblue;}
+      fieldset:focus-within { background: #d3e4ff; color: red;}
+
+
+table, th, td {
+  table-layout: fixed;
+  border: 1px solid yellow;
+  border-collapse: collapse;
+  width: 100%;
+  
+}
+th, td {
+  padding: 2px;
+  text-align: left;
+  width: 45%;
+  text-align: right;
+  background-color:#7575a3;
+  color: white
+}
+
+output:hover { color: yellow}
+
+
+
+
+#useofsurplus td, #useofsurplus th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#useofsurplus tr:nth-child(even){background-color: #f2f2f2;}
+
+#useofsurplus th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: tomato;
+  color: white;}
+  
+  tr:hover td {
+  background-color: #5c5c8a;
+  color: #fff;
+}
+
+#retirementtable th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #ea2020;
+  color: white;}
+#retirementtable td, #retirementtable th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+
+
+
+
+ .fieldoutput {
+      background-color:blue;
+      color: red;
+      text-align: center;
+      border: dashed;
+   
+     }
+     
+.focus { background-color: #365484; color: yellow; padding: 0px; border: 15px solid #365484;}     
+ 
+
+
+</style>
+</head>
+<body>
+
+
+ <!--- stuff for navigation menu -- just the links, design will come later --->
+ <ul>
+ <li> <a href=" http://www.insightws.com.au/adviser-tools.html   "class="active">Home</a></li>
+  <li> <a href=" https://www.lenntech.com/periodic/number/atomic-number.htm  "   class="active">Link1</a></li>
+   <li> <a href="https://en.wikipedia.org/wiki/Wikipedia"class="active">Link2</a> </li> 
+   </ul>
+ 
+ <!--- data input fields --->
+ <div1>
+ <!--- col #1 entry -- set by class --->
+ <div class = "row">
+ <div class= "columnA">
+ 
+ 
+ 
+  <fieldset  style=" background-color:red  ;"  >
+
+<label   style="color:white ;"     for ="disclaimer" > <strong>  Password:</strong> </label>
+ <input type="text" id="password" name="password" value="pass1" oninput=calculate()>
+ </fieldset>
+ 
+ 
+ 
+ 
+ 
+ <fieldset  style=" background-color:OrangeRed  ;"  >
+
+ <label   style="color:white ;"     for ="disclaimer" >   I understand this calculator is for general informational purposes only, and is not to be interpreted as, or relied upon as personal advice  <i>   (type "YES" to proceed) </i>  </label>
+ <input type="text" id="disclaimer" name="disclaimer" placeholder="YES or NO" oninput=calculate()>
+ </fieldset>
+          
+ 
+ <fieldset>
+     <legend><strong>
+      Income & CC </strong>
+       </legend>
+      <label for="income"  >Gross Income ($): </label>
+       <input type="text"id="income" name="grossincome"  
+       value="87214" oninput= calculate()    >
+ 
+ 
+       <label for="extrasuper"  ><i>Additional Super Cont's ($): </i></label>
+       <input type="text"id="extrasuper" name="extrasuper"
+       placeholder="Extra Concessional" oninput= calculate()    >
+ 
+ </fieldset>
+
+<p>
+
+</p>
+
+<!-- this output ID will contain the sum total of all tax & medicare payable (net LITO etc) --->
+          
+          <div class = "fieldoutput">
+          <strong>
+          <fieldset>
+          
+          <output id = "netincome"></output> </fieldset>
+           </strong>
+            
+            </div>
+     
+       <!---start experimental table --->     
+         
+         
+   
+            
+<!--- next we will have some text with detail on the components of tax, medicare etc... 
+
+Way to do this...
+
+**Current will be as per inputs
+**Optimised....
+   We will need to compare concessional contributions (CC) against NCC, investment portfolio, and debt repayments.
+   
+   (1) The level of super contributions will be restricted to max contributions
+   (2) The contribution date will be set at "retirement date" (so based on number of years being retirement age less current age --- "years to retirement")
+   (3) Using this date, we can compare the outcome for each of the four investment scenarios, using else/if statement....  
+   
+   (3.1) we can simply compare CC against NCC on the basis of contributions tax.  15% for NCC, therefore if gross income is less than ($$income effective tax rate >15%) we select NCC. /// <<<scrap that idea.... let the formulas run and give the answer, ranking each option... ///
+   
+   (3.2)  If concessional contribution is selected, the MAXIMUM contribution will be the MINIMUM of (i) surplus income/savings, and (ii) max contribution less SG
+   (3.3)  Next, if there are concessional contributions we need to calculate the is there is a surplus in savings capacity.  
+      (3.32) We need to convert surplus income into pre-tax terms... ####  This will be the key driver for all projections...
+      - Ways to do this... 
+            * we could reference directly according to MTR tiers
+            *We could look at current gross income MTR, look at the distance between it ($$grossY) and next tier down, is this distance after-tax greater than the surplus?  If so, we are only working with one tax rate conversion.  Otherwise, we want to look at the next tax tier -- are concessional contributions still optimal?
+
+
+--->        
+      
+            
+    
+<!--- end experimental table --->
+            
+               <p>
+               </p>
+          <fieldset>
+   
+          <label for="expenses">
+ Household Expenses ($):</label>
+         <input type="text"id="expenses" name="expenses"
+         value = "65000" oninput= calculate()    >
+  
+        </fieldset><p>  </p>
+  
+  
+            
+   <!--- this section will pop up with Savings Capacity ($): --->
+     <div class = "fieldoutput">
+       <fieldset>
+    <output id = "surplus"></output>
+    </fieldset></div>
+    
+    <!--- Asset & liability - basic record --->
+
+<fieldset>
+
+          <legend> <strong> What do you do with your surplus? </strong>
+          </legend>
+
+
+            <label for="testAA"> Spending:</label> 
+             <input type =text value="0"
+             id="testAA" name=testAA oninput=calculate() ><br>
+             
+             
+               
+             <label for="testCA"> Cash savings ($):</label> 
+             <input type =text value="0"
+             id="testCA" name=testCA oninput=calculate() ><br>
+             
+             
+             
+             
+             <label for="testBB"> Investment (non super):</label> 
+             <input type =text value="0"
+             id="testBA" name=testBA oninput=calculate() ><br>
+             
+            
+             
+
+            <label for="nonc1"> NC Super Contributions ($):</label> 
+             <input type =text  value="0" 
+             id="nonc1" name="nonc1" oninput=calculate() ><br>
+
+<!--- not yet working parts -->
+
+
+
+
+
+
+            
+            <label for="debtpay1"> Debt repayments ($):</label> 
+             <input type =text value="0"
+             id="debtpay1" name=debtpay1 oninput=calculate() ><br>
+           
+ </fieldset> <p></p>
+ 
+ 
+ <!-- unallocated output -->
+ <div class="fieldoutput">
+ 
+ <fieldset><div class="focus">
+ 
+ 
+ <output id = "unallocated1"></output></div>
+ 
+ </fieldset></div>
+
+ <!--- end unallocated output --->
+ 
+ 
+ 
+ 
+ 
+ 
+ <fieldset>
+
+          <legend>
+Assets & Liabilities
+          </legend>
+<!--- CASH EXISTING SAVINGS --->
+
+             <label for="cashsavings"> Cash savings($):</label> 
+             <input type =text value = "5000" 
+             id="cashsavings" name=cashsavings
+             oninput=calculate() ><br>
+
+<!--- SUPER EXISTING SAVINGS --->
+
+             <label for="superbalance"> Super balance ($):</label> 
+             <input type =text value = "170000" 
+             id="superbalance" name=superbalance oninput=calculate() ><br>
+             <label for="otherinvest"> Other Invest Assets ($):</label> 
+             <input type =text value="50000" 
+             id="otherinvest" name="otherinvest" oninput=calculate() ><br>
+             <label for="debtbalance"> Debt balance ($):</label> 
+             <input type =text  value = "80000" 
+             id="debtbalance" name=debtbalance oninput=calculate() ><br>
+             
+             
+             
+            
+ </fieldset>
+ 
+ 
+ 
+ 
+           
+          <fieldset>
+                <legend><strong>Mortgage Details</strong></legend>
+        
+                <label for="mortgage"  > Mortgage Interest Rate (%):</label>
+                 <input type="text"id="mortgage" name="mortgage" 
+                   value="6.37"  oninput= calculate() size="6" maxlength="5"   >  <br>
+               
+           </fieldset>
+     
+     
+     <fieldset>
+                <legend><strong>Cash Details</strong></legend>
+        
+                <label for="cashrate"  > Cash Interest Rate (%):</label>
+                 <input type="text"id="cashrate" name="cashrate" 
+                   value="2.34"  oninput= calculate() size="6" maxlength="5"   >  <br>
+               
+           </fieldset>
+     
+     
+     
+     
+           <fieldset>
+               <legend><strong> Investment details - Super </strong></legend>
+    
+                <label for="return">Investment Return (%):</label>
+               <input type="text"id="return" name="return"
+               value = "8.97"  oninput= calculate() size="6" maxlength="5" ><br>
+               <label for="volatility">Asset Volatility (%): </label>
+               <input type="text"id="volatility" name="volatility"
+               value="13.77"   oninput= calculate() size="6" maxlength="5"><br>
+               <label for="turnover">Turnover (%p.a.): </label>
+               <input type="text"id="turnover" name="turnover"  
+               placeholder="Portfolio turnover"   oninput= calculate() 
+               step=10 value="40" size="6" maxlength="5" ><br>
+              <label for="fees">Fees (%p.a.): </label>
+             <input type="text"id="fees" name="fees"
+               placeholder="Investment & Admin fees"   
+               oninput= calculate()  step=0.5 value=1.50  size="6" maxlength="5"   >
+         </fieldset>
+         
+         
+         <!------  add investment return stuff for non-super investment portfolio --->
+         
+         
+          <fieldset>
+               <legend><strong> Investment details - Non-Super (add#2) </strong></legend>
+    
+                <label for="return2">Investment Return (%):</label>
+               <input type="text"id="return2" name="return2"
+               value = "4.72"  oninput= calculate() size="6" maxlength="5" ><br>
+               <label for="volatility2">Asset Volatility2 (%): </label>
+               <input type="text"id="volatility2" name="volatility2"
+               placeholder="WIP"   oninput= calculate() size="6" maxlength="5"><br>
+               <label for="turnover2">Turnover2 (%p.a.): </label>
+               <input type="text"id="turnover2" name="turnover2"  
+               oninput= calculate() 
+               value="35" size="6" maxlength="5" ><br>
+              <label for="fees2">fees2 (%p.a.): </label>
+             <input type="text"id="fees2" name="fees2"
+               oninput= calculate()  value=0.80  size="6" maxlength="5"   >
+         </fieldset>
+         
+         
+         
+         
+         
+         
+         
+         
+         <fieldset>
+         <legend>
+   Investor Preferences
+         </legend>
+   
+         <fieldset>
+               <label for="age">Your Age: #age</label>
+                 <input type="text"id="age" name="age" value="42" oninput= calculate()   >
+               <label for="sgc">SGC (%):</label>
+                 <input type="text"id="sgc" name="sgc" value="9.50" oninput= calculate()>
+          </fieldset>
+    
+               <label for="prob">Confidence Interval (%): </label>
+               <input type="text"id="prob" name="prob"
+                placeholder="* 50% *"   oninput= calculate()  >
+       
+             <label for="Target Retirement" >Tgt Retire Age: </label>
+             <input type="text"id="retireage" name="retireage"
+             value="64" oninput= calculate()    >
+             
+      <!--- accepted volatility in retirement --- this will determine % of equity exposure --->      
+            
+            <label for="Retirement earnings rate" >Volatility in Retirement (%)</label>
+             <input type="text"id="retirevol" name="retirevol"
+             value=5.0 oninput= calculate()    >
+             
+             <label for="Sharpe Ratio"> Sharpe Ratio in Retirement</label>
+             <input type = "text" id="sharpe" name = "sharpe"
+            value=0.65 oninput= calculate() >
+             
+             
+                <label for="Fees_retire"> Fees in Retirement (%):</label>
+             <input type = "text" id="fees_retire" name = "fees_retire"
+            value=0.75 oninput= calculate() >
+ 
+ <!---  INFLATION &&&&&& ___  --->
+ 
+ <label for="inflation"> Inflation (%):</label>
+             <input type = "text" id="inflation" name = "inflation"
+            value = "2.75" oninput= calculate()  >
+ 
+ 
+ 
+ 
+ 
+ 
+         </fieldset>
+         
+ 
+ </div>
+ 
+ <!--- col #2 entry RHS -- set by class --->
+ 
+ <div class= "columnA">
+          
+          
+             <p>
+        </p>
+            <table id="useofsurplus">
+            
+            <tr>  <th> </th>
+            <th> Current </th>
+            <th>Cashflow Optimised </th>
+              <th> Fully Optimised </th>
+            </tr> 
+            
+            <td>
+            Gross Income ($):</td> <td>
+          <output id="grossY1"></output>
+            </td>
+            <td> <output id = "grossY2"></output></td>
+            <td> <output id = "grossY3"></output></td>
+            
+            <tr> </tr> 
+            <td>
+            Concessional Super Contributions ($):</td> <td>
+          <output id="cc1"></output>
+            </td> <td>   
+            <output id="cc2"></output>   </td>
+             <td> <output id = "cc3"></output></td>
+           
+           <tr></tr>  <td>
+            Assessable Income ($):</td> <td>  
+          <output id="ati2"></output>
+            </td>
+            <td>   <output id="ati3"></output>  </td>
+              <td>   <output id="ati4"></output>  </td>
+            <tr>
+            <td>Income Tax ($):</td><td>
+          <output id="taxprint"></output>
+             </td>
+                 <td> <output id="taxprint2"></output>  </td>
+                  <td> <output id="taxprint3"></output>  </td>
+             <tr></tr>
+           <td>Medicare ($):</td><td>
+          <output id="medicareprint"></output>
+             </td>
+                 <td>    <output id="medicareprint2"></output>  </td>
+                 <td>    <output id="medicareprint3"></output>  </td>
+         
+          <tr></tr>
+           <td>Medicare Levy Surcharge ($):</td><td>
+          <output id="mlsprint"></output>
+             </td>
+                 <td>   <output id="mlsprint2"></output>  </td>
+                 <td>   <output id="mlsprint3"></output>  </td>
+                 
+             <tr></tr>
+             <td><i>Less Low Income Tax Offset ($):</i></td><td>
+          <output id="litoprint"></output>
+             </td>
+                 <td> <output id="litoprint2"></output></td>
+                  <td> <output id="litoprint3"></output></td>
+             <tr></tr>
+             
+             <td><strong>Total Tax & Medicare ($):</strong></td><td>
+          <strong><output id="totalprint">
+                <td>   <output id="totalprint2">  </td>
+                 <td> <output id="totalprint3">  </td>
+          </output></strong>
+             </td><tr></tr>
+             
+              <td>Household Expenses ($):</td>
+                  <td><output id="exp1"></output></td>
+                  <td><output id="exp2"></output></td>
+                  <td><output id="exp3"></output></td>
+                  <tr></tr>
+                 
+              <td>Surplus Income ($):</td>
+                  <td><output id="surplus1"></output></td>
+                  <td><output id="surplus2"></output></td>
+                  <td><output id="surplus3"></output></td>
+                  <tr></tr>
+
+                  </table>
+             
+             <p> 
+             
+             <table id="useofsurplus">
+             
+            
+           
+            <tr>  <th> Use of Surplus </th>
+            <th> Current </th>
+            <th> Cashflow Optimised </th>
+             <th>Fully Optimised </th>
+           
+            </tr> 
+             
+                    <td>Spending (dead) :</td>
+                  <td><output id="testAB"></output></td>
+                  <td><output id="justzeros"></output></td>
+                  <td><output id="justzeros2"></output></td>
+                  <tr></tr>  
+                                  
+                     <td>Cash savings:</td>
+                  <td><output id="testCB"></output></td>
+                  <td><output id="cashsavings2"></output></td>
+                  <td><output id="cashsavings3"></output></td>
+                  <tr></tr>  
+                  
+                  
+                    <td>Investments (non super):</td>
+                  <td><output id="testBB"></output></td>
+                  <td><output id="investsavings2"></output></td>
+                  <td><output id="investsavings3"></output></td>
+                  <tr></tr>  
+                  
+                  
+                   <td>Debt repayments:</td>
+                  <td><output id="debtrepayment1"></output></td>
+                  <td><output id="debtrepayment2"></output></td>
+                  <td><output id="debtrepayment3"></output></td>
+                  
+                  
+                  
+                  
+                  <tr></tr>
+             
+                 <td>NC Super Contributions:</td>
+                  <td><output id="nccsavings1"></output></td>
+                  <td><output id="nccsavings2"></output></td>
+                   <td><output id="nccsavings3"></output></td>
+                  <tr></tr>
+             
+           
+             
+                  <td>Unallocated: </td>
+                  <td><output id="residual1"></output></td>
+                  <td><output id="residual2"></output></td> 
+                  <td><output id="residual3"></output></td> 
+                  
+                  
+                  <tr></tr>
+                  
+                
+            
+            </table>
+            <p> </p>
+          
+          
+    <!--- testing -- VALUE OF PORTFOLIO AT RETIREMENT  --->
+    <table id="useofsurplus">
+            <tr>  <th> Value at Retirement <em>(Inflation Adjusted)</em> </th>
+            <th> Current </th>
+            <th>Cashflow Optimised </th>
+             <th>Fully Optimised </th>
+           
+            </tr> 
+            
+             <!--- value of cash at retirement -->
+                   <td>Cash:</td>
+                  <td><output id="cashatretirement1"></output> </td>
+                  <td><output id="cashatretirement2"></output></td>
+                   <td><output id="cashatretirement3"></output></td>
+                  <tr></tr>  
+                  
+            
+            
+            
+            
+            <!--- value of debt at retirement -->
+             
+                  <td>Debt</td>
+                  <td>  <output id="debtatretirement1"></output> </td>
+                  <td>  <output id="debtatretirement2"></output>  </td>
+                  <td>  <output id="debtatretirement3"></output>  </td>
+                  <tr></tr>  
+                  
+                  
+                    <!--- value of super at retirement -->
+                   <td>Super:</td>
+                  <td><output id="superatretirement1"></output> </td>
+                 <td><output id="superatretirement2"></output> </td> 
+                                  <td><output id="superatretirement3"></output> </td> 
+                  <tr></tr>  
+                  
+                  
+                  
+                  
+                  
+            <!----- INVESTMENT ASSETS FUTURE VALUE TABLE OUTPUT--->
+            
+            
+             <td>Non-Super:</td>
+                  <td><output id="nonsuperatretirement1"></output> </td>
+                  <td><output id="nonsuperatretirement2"></output></td>
+                  <td><output id="nonsuperatretirement3"></output></td>
+                  <tr></tr> 
+            
+            
+            
+            
+           <!----- INVESTMENT ASSETS FUTURE VALUE --->
+                  
+                  
+                  
+                  
+            
+               <td><strong> 
+               Net Assets at Retirement</strong></td>
+                  <td><strong>
+                  <output id="netassetsatretirement1"></output></strong> </td>
+                             <td><strong> <output id="netassetsatretirement2"></output></strong></td>
+                             <td><strong> <output id="netassetsatretirement3"></output></strong></td>
+                  <tr></tr>  
+            
+<!---  NET ASSETS -- OUTPUT -->           
+            <td><strong> 
+               Benefit of Strategy</strong></td>
+                  <td><i>
+                  <output id="N_a"></output></i> </td>
+                             <td><strong> <output id="benefitofstrategy2"></output></strong></td>
+                             <td><strong> <output id="benefitofstrategy3"></output></strong></td>
+                  <tr></tr>  
+                  
+                  </table>
+                  <p>
+                  
+                  </p>
+                  
+           
+<!---  RETIREMENT INCOME -- OUTPUT -->         
+
+
+ <table id="retirementtable">
+            <tr>  <th> Income in Retirement <em>(Inflation Adjusted)</em> </th>
+            <th> Current </th>
+            <th>Cashflow Optimised </th>
+             <th>Fully Optimised </th>
+           
+            </tr> 
+
+      
+       <td> 
+               Investment Drawings ($)</td>
+                  <td>
+                <output id="income_in_retirement1"></output>      </td>
+                <td> <output id="income_in_retirement2"></output></td>
+                 <td> <output id="income_in_retirement3"></output></td>
+                
+                
+                  <tr></tr>  
+      
+       <td>
+               Age Pension ($)</td>
+                  <td>
+               <output id="pension_est1"></output>     </td>
+                <td>   <output id="pension_est2"></output> </td>
+                <td>   <output id="pension_est3"></output> </td>
+                
+                  <tr></tr>  
+       <td><strong> 
+              Total Retirement Income ($)</strong></td>
+              <td> <strong><output id="totalretirementincome1"></output></strong>
+                   </td>
+                   <td><strong> <output id="totalretirementincome2"></output> </strong></td>
+                   <td><strong> <output id="totalretirementincome3"></output></strong> </td>
+                  <tr></tr>  
+      
+      <!--- $shrave --->
+      <tr></tr>  
+       <td>   </td>
+       <td><i> <output id="retireY1"></output></i>
+                   </td>
+                   <td><i> <output id="retireY2"></output></i> </td>
+                <td> <i><output id="retireY3"></output></i> </td>
+                  <tr></tr>  
+      
+      
+      
+      
+      
+      
+            </table>
+            <p> </p>
+          
+          <!--- testing --->
+          
+
+
+
+
+
+
+
+
+
+
+
+
+          
+          
+          
+          
+          
+          
+          
+          
+          
+
+         
+         
+         
+         
+         <!---    end section for investment return stuff --->
+         
+         
+         
+         
+ 
+         
+           <!--- in this part we will have a part that pops up with outputs with tax, ATI etc, once gross income has been entereed --->
+          
+         
+      
+      </div></div></div1>
+
+ 
+ 
+ <!---- $chart start experiment stacked outcome --->
+
+<div id="chart3" style="width: 100%; height: 300px;">
+</div>
+<script scr="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+<!---- $chart end --->
+ 
+ 
+ <p>
+ </p>
+ 
+ </p>
+ </p>
+ 
+ 
+<!--- testing chart --- div output -->
+
+<div id="chartContainer" style="width: 55%; height: 300px;display: inline-block;"></div>
+<div id="chart2" style="width: 40%; height: 300px;display: inline-block;"></div>
+
+ 
+ <!--- output section --->
+        <div class="row">
+        <div class= "output">
+
+              <fieldset>
+              <legend>
+     Data Check only (delete after use)  
+               </legend><p id="datacheck"></p></fieldset>
+      
+          <fieldset><strong><span style="color:black" text-align="right">
+
+      Summary 
+
+          </span></strong><br>
+          <p id="tax" >
+          <p id="preservation">
+          </p> </fieldset></div> </div>
+
+
+<!--- insert chart #2 - with volatility // outcomes --- we can adjust path of projection by directly changing variable inputs >> CC / NCC etc .... or, can we restrict variables to specific datasets?  If so, copy and paste code with change to headline variable ** check ** --->
+
+
+          <div id="chart3" style="height: 360px; width: 100%;"></div>
+
+
+<!-- note chartcontainer2 above --->
+
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+
+<!--- CHART SCRIPTS ONLY --->
+
+<script>
+
+var chart = new CanvasJS.Chart("chartContainer", {
+  title: {
+    text: "  "
+    
+  },
+ zoomEnabled: true,
+ toolTip:{
+		shared: true
+	},
+ 
+ backgroundColor: "lightyellow",
+ legend: {verticalAlign: "top"},
+ 
+animationEnabled: true,
+ animationDuration: 20000,
+ interactivityEnabled: true,
+ 
+  axisY:{
+       title: "",
+       tickLength: 0,
+       lineThickness:0,
+       gridColor: "#F5f5F5",
+       margin:0,
+       valueFormatString:" " //comment this to show numeric values
+      },
+      axisX:{
+       title: "",
+       tickLength: 0,
+       margin:0,
+       lineThickness:0,
+       labelFontColor:"lightyellow",
+       
+       valueFormatString:" " //comment this to show numeric values
+      },
+  
+  data: [{
+    type: "column",
+    name: "Concessional Super Contributions",
+     showInLegend: true, 
+     color: "#0066ff",
+     bevelEnabled: true,
+     
+    dataPoints: [ 
+    		{ y: 0,label: "Super Contributions - Year 1" },
+        	{ y: 0,label: "Super Contributions - Year 2" },
+        	{ y: 0,label: "Super Contributions - Year 3" },
+        	{ y: 0,label: "Super Contributions - Year 4" },
+        	{ y: 0,label: "Super Contributions - Year 5" },
+        	{ y: 0,label: "Super Contributions - Year 6" },
+        	{ y: 0,label: "Super Contributions - Year 7" },
+        	{ y: 0,label: "Super Contributions - Year 8" },
+        	{ y: 0,label: "Super Contributions - Year 9" },
+        	{ y: 0,label: "Super Contributions - Year 10" },         
+ { y: 0,label: "Super Contributions - Year 11" },
+        	{ y: 0,label: "Super Contributions - Year 12" },
+        	{ y: 0,label: "Super Contributions - Year 13" },
+        	{ y: 0,label: "Super Contributions - Year 14" },
+        	{ y: 0,label: "Super Contributions - Year 15" },
+        	{ y: 0,label: "Super Contributions - Year 16" },
+        	{ y: 0,label: "Super Contributions - Year 17" },
+        	{ y: 0,label: "Super Contributions - Year 18" },
+        	{ y: 0,label: "Super Contributions - Year 19" },
+        	{ y: 0,label: "Super Contributions - Year 20" },    
+      { y: 0,label: "Super Contributions - Year 21" },
+        	{ y: 0,label: "Super Contributions - Year 22" },
+        	{ y: 0,label: "Super Contributions - Year 23" },
+        	{ y: 0,label: "Super Contributions - Year 24" },
+        	{ y: 0,label: "Super Contributions - Year 25" },
+        	{ y: 0,label: "Super Contributions - Year 26" },
+        	{ y: 0,label: "Super Contributions - Year 27" },
+        	{ y: 0,label: "Super Contributions - Year 28" },
+        	{ y: 0,label: "Super Contributions - Year 29" },
+        	{ y: 0,label: "Super Contributions - Year 30" },
+        
+    ]
+  },
+  {
+    type: "column",
+    name: "Non-Concessional Super Contributions",
+     showInLegend: true, 
+     color: "#4ddbff",
+     bevelEnabled: true,    
+    dataPoints: [
+    	{ y: 0,label: "NCC Year 1" },
+        	{ y: 0,label: "NCC Year 2" },
+          	{ y: 0,label: "NCC Year 3" },
+        	{ y: 0,label: "NCC Year 4" },
+        	{ y: 0,label: "NCC Year 5" },
+          	{ y: 0,label: "NCC Year 6" },
+             	{ y: 0,label: "NCC Year 7" },
+          	{ y: 0,label: "NCC Year 8" }, 
+             	{ y: 0,label: "NCC Year 9" },
+          	{ y: 0,label: "NCC Year 10" },  
+           	{ y: 0,label: "NCC Year 11" },
+        	{ y: 0,label: "NCC Year 12" },
+          	{ y: 0,label: "NCC Year 13" },
+        	{ y: 0,label: "NCC Year 14" },
+        	{ y: 0,label: "NCC Year 15" },
+          	{ y: 0,label: "NCC Year 16" },
+             	{ y: 0,label: "NCC Year 17" },
+          	{ y: 0,label: "NCC Year 18" }, 
+             	{ y: 0,label: "NCC Year 19" },
+          	{ y: 0,label: "NCC Year 20" },   
+              	{ y: 0,label: "NCC Year 21" },
+        	{ y: 0,label: "NCC Year 22" },
+          	{ y: 0,label: "NCC Year 23" },
+        	{ y: 0,label: "NCC Year 24" },
+        	{ y: 0,label: "NCC Year 25" },
+          	{ y: 0,label: "NCC Year 26" },
+             	{ y: 0,label: "NCC Year 27" },
+          	{ y: 0,label: "NCC Year 28" }, 
+             	{ y: 0,label: "NCC Year 29" },
+          	{ y: 0,label: "NCC Year 30" },                 
+   	]
+	},
+  {
+    type: "column",
+    name: "Debt Repayments",
+   showInLegend: true, 
+   color: "#ff6600",
+   bevelEnabled: true,
+   
+    dataPoints: [
+     	{ y: 0,label: "Year 1" },
+        	{ y: 0,label: "Year 2" },
+          	{ y: 0,label: "Year 3" },
+        	{ y: 0,label: "Year 4" },
+        	{ y: 0,label: "Year 5" },
+          	{ y: 0,label: "Year 6" },
+         	{ y: 0,label: "Year 7" },
+          	{ y: 0,label: "Year 8" },
+        	{ y: 0,label: "Year 9" },
+          	{ y: 0,label: "Year 10" },      
+      		{ y: 0,label: "Year 11" },
+        	{ y: 0,label: "Year 12" },
+          	{ y: 0,label: "Year 13" },
+        	{ y: 0,label: "Year 14" },
+        	{ y: 0,label: "Year 15" },
+          	{ y: 0,label: "Year 16" },
+         	{ y: 0,label: "Year 17" },
+          	{ y: 0,label: "Year 18" },
+        	{ y: 0,label: "Year 19" },
+          	{ y: 0,label: "Year 20" },
+         		{ y: 0,label: "Year 21" },
+        	{ y: 0,label: "Year 22" },
+          	{ y: 0,label: "Year 23" },
+        	{ y: 0,label: " Year 24" },
+        	{ y: 0,label: "Year 25" },
+          	{ y: 0,label: "Year 26" },
+         	{ y: 0,label: "Year 27" },
+          	{ y: 0,label: "Year 28" },
+        	{ y: 0,label: "Year 29" },
+          	{ y: 0,label: "Year 30" },       
+   	]
+	}]
+});
+chart.render();
+
+
+
+
+
+
+
+
+var chart2 = new CanvasJS.Chart("chart2", {
+  title: {
+    text: "  "
+    
+  },
+ zoomEnabled: true,
+  toolTip:{
+		shared: true
+	},
+ backgroundColor: "lightyellow",
+ legend: {verticalAlign: "top"},
+ 
+animationEnabled: true,
+ animationDuration: 3000,
+ interactivityEnabled: true,
+ 
+  axisY:{
+       title: "",
+       tickLength: 0,
+       lineThickness:0,
+       gridColor: "#F5f5F5",
+       margin:0,
+       valueFormatString:" " //comment this to show numeric values
+      },
+      axisX:{
+       title: "",
+       tickLength: 0,
+       margin:0,
+       lineThickness:0,
+       gridColor: "yellow",
+       gridThickness: 0.5,
+       interval: 5,
+       labelFontColor:"lightyellow",
+       
+       valueFormatString:" " //comment this to show numeric values
+      },
+  
+  data: [{
+    type: "spline",
+    name: "Low (CC) - 5%",
+     showInLegend: true, 
+     color: "crimson",
+     bevelEnabled: true,
+     
+     
+     
+     /* mean, high95, low95, x.n std deviations -- pass in --> */
+     
+    dataPoints: [ 
+    		{ y: 0,label: "1 Year" },
+        		{ y: 0,label: "2 Years" },
+          	{ y: 0,label: "3 Years" },
+        		{ y: 0,label: "4 Years" },
+        		{ y: 0,label: "5 Years" },
+          	{ y: 0,label: "6 Years" },
+        	{ y: 0,label: "7 Years" },
+          	{ y: 0,label: "8 Years" },
+        		{ y: 0,label: "9 Years" },
+        		{ y: 0,label: "10 Years",  },
+          	{ y: 0,label: "11 Years" },
+        		{ y: 0,label: "12 Years" },
+          	{ y: 0,label: "13 Years" },
+        		{ y: 0,label: "14 Years" },
+        		{ y: 0,label: "15 Years" ,},
+          	{ y: 0,label: "16 Years" },
+           { y: 0,label: "17 Years" },
+          	{ y: 0,label: "18 Years" },
+        		{ y: 0,label: "19 Years" },
+        		{ y: 0,label: "20 Years" },
+            { y: 0,label: "21 Years" },          	
+        		{ y: 0,label: "22 Years" },
+          	{ y: 0,label: "23 Years" },
+        		{ y: 0,label: "24 Years" },
+        		{ y: 0,label: "25 Years" },
+          	{ y: 0,label: "26 Years" },
+        	{ y: 0,label: "27 Years" },
+          	{ y: 0,label: "28 Years" },
+        		{ y: 0,label: "29 Years" },
+        		{ y: 0,label: "30 Years" },
+            
+          
+                   
+          /* to n40 */
+          
+          
+                   
+
+        
+    ]
+  },
+  {
+    type: "spline",
+    name: "High (CC) - 5%",
+     showInLegend: true, 
+     color: "lime",
+     bevelEnabled: true,    
+    dataPoints: [
+   					{ y: 0,label: "1 Year" },
+        		{ y: 0,label: "2 Years" },
+          	{ y: 0,label: "3 Years" },
+        		{ y: 0,label: "4 Years" },
+        		{ y: 0,label: "5 Years" },
+          	{ y: 0,label: "6 Years" },
+        	{ y: 0,label: "7 Years" },
+          	{ y: 0,label: "8 Years" },
+        		{ y: 0,label: "9 Years" },
+        		{ y: 0,label: "10 Years" },
+          	{ y: 0,label: "11 Years" },
+        		{ y: 0,label: "12 Years" },
+          	{ y: 0,label: "13 Years" },
+        		{ y: 0,label: "14 Years" },
+        		{ y: 0,label: "15 Years" },
+          	{ y: 0,label: "16 Years" },
+           { y: 0,label: "17 Years" },
+          	{ y: 0,label: "18 Years" },
+        		{ y: 0,label: "19 Years" },
+        		{ y: 0,label: "20 Years" },
+            { y: 0,label: "21 Years" },          	
+        		{ y: 0,label: "22 Years" },
+          	{ y: 0,label: "23 Years" },
+        		{ y: 0,label: "24 Years" },
+        		{ y: 0,label: "25 Years" },
+          	{ y: 0,label: "26 Years" },
+        	{ y: 0,label: "27 Years" },
+          	{ y: 0,label: "28 Years" },
+        		{ y: 0,label: "29 Years" },
+        		{ y: 0,label: "30 Years" },
+            
+            
+            
+            /* extend to n40 */
+            
+   	]
+	},
+  {
+    type: "spline",
+    name: "Debt Repayments",
+   showInLegend: true, 
+   color: "black",
+   lineDashType: "dash",
+   bevelEnabled: true,
+   
+    dataPoints: [
+     	{ y: 0, label: "Debt Repayments - Year 1" },
+        	{ y: 0,label: "Debt Repayments - Year 2" },
+          	{ y: 0,label: "Debt Repayments - Year 3" },
+        	{ y: 0,label: "Debt Repayments - Year 4" },
+        	{ y: 0,label: "Debt Repayments - Year 5" },
+          	{ y: 0,label: "Debt Repayments - Year 6" },
+         	{ y: 0,label: "Debt Repayments - Year 7" },
+          	{ y: 0,label: "Debt Repayments - Year 8" },
+        	{ y: 0,label: "Debt Repayments - Year 9" },
+          	{ y: 0,label: "Debt Repayments - Year 10" },      
+      		{ y: 0,label: "Debt Repayments - Year 11" },
+        	{ y: 0,label: "Debt Repayments - Year 12" },
+          	{ y: 0,label: "Debt Repayments - Year 13" },
+        	{ y: 0,label: "Debt Repayments - Year 14" },
+        	{ y: 0,label: "Debt Repayments - Year 15" },
+          	{ y: 0,label: "Debt Repayments - Year 16" },
+         	{ y: 0,label: "Debt Repayments - Year 17" },
+          	{ y: 0,label: "Debt Repayments - Year 18" },
+        	{ y: 0,label: "Debt Repayments - Year 19" },
+          	{ y: 0,label: "Debt Repayments - Year 20" },
+         		{ y: 0,label: "Debt Repayments - Year 21" },
+        	{ y: 0,label: "Debt Repayments - Year 22" },
+          	{ y: 0,label: "Debt Repayments - Year 23" },
+        	{ y: 0,label: "Debt Repayments - Year 24" },
+        	{ y: 0,label: "Debt Repayments - Year 25" },
+          	{ y: 0,label: "Debt Repayments - Year 26" },
+         	{ y: 0,label: "Debt Repayments - Year 27" },
+          	{ y: 0,label: "Debt Repayments - Year 28" },
+        	{ y: 0,label: "Debt Repayments - Year 29" },
+          	{ y: 0,label: "Debt Repayments - Year 30" },  
+            
+            
+            /* extend to n40 */
+   	]
+	}]
+});
+chart2.render();
+
+
+
+
+document.getElementById("prob").addEventListener("mousemove", function(e) {
+  
+  
+var x = document.getElementById("income").value;
+var mortgage = document.getElementById("mortgage").value; 
+var rtn = document.getElementById("return").value;
+var fees = document.getElementById("fees").value;
+var vol = document.getElementById("volatility").value;
+var turnover = document.getElementById("turnover").value;
+var taxonsuperearnings = Math.min(0.15,((turnover/100)*0.15)+((1-(turnover/100))*0.10))
+var numbersd = 1.645;
+var vt = (vol * 0.01 * numbersd);
+
+var mtr;
+if (x < 18201){mtr = 0;} 
+else if (x < 37001) { mtr = 0.19;}
+else if (x < 87001) { mtr = 0.325;}
+else if (x < 180001) { mtr = 0.39;}
+else { mtr = 0.47;}
+
+var medicarerate;
+if (x < 21980){medicarerate = 0.0;} 
+else if (x > 27476) { medicarerate = 2.0;}
+else { medicarerate = ((((x-21980)*0.1)/x)*100).toFixed(0);}
+
+var medicaresurcharge;
+if (x < 90000){medicaresurcharge = 0;} 
+else if (x < 104999) { medicaresurcharge = 1;}
+else if (x > 139999) { medicaresurcharge = 1.25;}
+else { medicaresurcharge = 1.5;}
+
+var LITO;
+if (x < 66667){LITO = Math.min(445,(445-(x-37000)*1.5));} 
+else { LITO = 0;}
+
+
+var medicarepayable = (x * (medicarerate/100))
+var mlspayable = (x * (medicaresurcharge/100))
+var totalmarginal = medicaresurcharge + medicarerate + (mtr*100)
+
+ 
+  var netrtn = ((rtn-fees)*(1-taxonsuperearnings))*0.01
+  var netrtn2 = (rtn - fees)*0.85*0.01
+  var netrtn3 = (mortgage/100)
+  var n1 =(1-(totalmarginal*0.01))
+  console.log(typeof a)
+ 
+ 
+ /* pass data for chart 1, series 1 */
+ 
+ chart.data[0].dataPoints[0].y = parseFloat(((Math.pow((1+netrtn),1))*0.85).toFixed(3));
+  chart.data[0].dataPoints[1].y = parseFloat(((Math.pow((1+netrtn),2))*0.85).toFixed(3));
+    chart.data[0].dataPoints[2].y = parseFloat(((Math.pow((1+netrtn),3))*0.85).toFixed(3));
+  chart.data[0].dataPoints[3].y = parseFloat(((Math.pow((1+netrtn),4))*0.85).toFixed(3));
+  chart.data[0].dataPoints[4].y = parseFloat(((Math.pow((1+netrtn),5))*0.85).toFixed(3));
+  chart.data[0].dataPoints[5].y = parseFloat(((Math.pow((1+netrtn),6))*0.85).toFixed(3));
+  chart.data[0].dataPoints[6].y = parseFloat(((Math.pow((1+netrtn),7))*0.85).toFixed(3));
+  chart.data[0].dataPoints[7].y = parseFloat(((Math.pow((1+netrtn),8))*0.85).toFixed(3));
+  chart.data[0].dataPoints[8].y = parseFloat(((Math.pow((1+netrtn),9))*0.85).toFixed(3));
+  chart.data[0].dataPoints[9].y = parseFloat(((Math.pow((1+netrtn),10))*0.85).toFixed(3));  
+  chart.data[0].dataPoints[10].y = parseFloat(((Math.pow((1+netrtn),11))*0.85).toFixed(3));
+  chart.data[0].dataPoints[11].y = parseFloat(((Math.pow((1+netrtn),12))*0.85).toFixed(3));
+    chart.data[0].dataPoints[12].y = parseFloat(((Math.pow((1+netrtn),13))*0.85).toFixed(3));
+  chart.data[0].dataPoints[13].y = parseFloat(((Math.pow((1+netrtn),14))*0.85).toFixed(3));
+  chart.data[0].dataPoints[14].y = parseFloat(((Math.pow((1+netrtn),15))*0.85).toFixed(3));
+  chart.data[0].dataPoints[15].y = parseFloat(((Math.pow((1+netrtn),16))*0.85).toFixed(3));
+  chart.data[0].dataPoints[16].y = parseFloat(((Math.pow((1+netrtn),17))*0.85).toFixed(3));
+  chart.data[0].dataPoints[17].y = parseFloat(((Math.pow((1+netrtn),18))*0.85).toFixed(3));
+  chart.data[0].dataPoints[18].y = parseFloat(((Math.pow((1+netrtn),19))*0.85).toFixed(3));
+  chart.data[0].dataPoints[19].y = parseFloat(((Math.pow((1+netrtn),20))*0.85).toFixed(3));  
+  chart.data[0].dataPoints[20].y = parseFloat(((Math.pow((1+netrtn),21))*0.85).toFixed(3));
+  chart.data[0].dataPoints[21].y = parseFloat(((Math.pow((1+netrtn),22))*0.85).toFixed(3));
+    chart.data[0].dataPoints[22].y = parseFloat(((Math.pow((1+netrtn),23))*0.85).toFixed(3));
+  chart.data[0].dataPoints[23].y = parseFloat(((Math.pow((1+netrtn),24))*0.85).toFixed(3));
+  chart.data[0].dataPoints[24].y = parseFloat(((Math.pow((1+netrtn),25))*0.85).toFixed(3));
+  chart.data[0].dataPoints[25].y = parseFloat(((Math.pow((1+netrtn),26))*0.85).toFixed(3));
+  chart.data[0].dataPoints[26].y = parseFloat(((Math.pow((1+netrtn),27))*0.85).toFixed(3));
+  chart.data[0].dataPoints[27].y = parseFloat(((Math.pow((1+netrtn),28))*0.85).toFixed(3));
+  chart.data[0].dataPoints[28].y = parseFloat(((Math.pow((1+netrtn),29))*0.85).toFixed(3));
+  chart.data[0].dataPoints[29].y = parseFloat(((Math.pow((1+netrtn),30))*0.85).toFixed(3));
+   
+   
+   /* pass data for chart 1, series 2 */
+   
+   
+ chart.data[1].dataPoints[0].y = parseFloat(((Math.pow((1+netrtn2),1))*n1).toFixed(3));
+  chart.data[1].dataPoints[1].y = parseFloat(((Math.pow((1+netrtn2),2))*n1).toFixed(3));
+    chart.data[1].dataPoints[2].y = parseFloat(((Math.pow((1+netrtn2),3))*n1).toFixed(3));
+  chart.data[1].dataPoints[3].y = parseFloat(((Math.pow((1+netrtn2),4))*n1).toFixed(3));
+  chart.data[1].dataPoints[4].y = parseFloat(((Math.pow((1+netrtn2),5))*n1).toFixed(3));
+  chart.data[1].dataPoints[5].y = parseFloat(((Math.pow((1+netrtn2),6))*n1).toFixed(3));
+ chart.data[1].dataPoints[6].y = parseFloat(((Math.pow((1+netrtn2),7))*n1).toFixed(3));
+  chart.data[1].dataPoints[7].y = parseFloat(((Math.pow((1+netrtn2),8))*n1).toFixed(3));
+  chart.data[1].dataPoints[8].y = parseFloat(((Math.pow((1+netrtn2),9))*n1).toFixed(3));
+  chart.data[1].dataPoints[9].y = parseFloat(((Math.pow((1+netrtn2),10))*n1).toFixed(3)); 
+  chart.data[1].dataPoints[10].y = parseFloat(((Math.pow((1+netrtn2),11))*n1).toFixed(3));
+  chart.data[1].dataPoints[11].y = parseFloat(((Math.pow((1+netrtn2),12))*n1).toFixed(3));
+    chart.data[1].dataPoints[12].y = parseFloat(((Math.pow((1+netrtn2),13))*n1).toFixed(3));
+  chart.data[1].dataPoints[13].y = parseFloat(((Math.pow((1+netrtn2),14))*n1).toFixed(3));
+  chart.data[1].dataPoints[14].y = parseFloat(((Math.pow((1+netrtn2),15))*n1).toFixed(3));
+  chart.data[1].dataPoints[15].y = parseFloat(((Math.pow((1+netrtn2),16))*n1).toFixed(3));
+ chart.data[1].dataPoints[16].y = parseFloat(((Math.pow((1+netrtn2),17))*n1).toFixed(3));
+  chart.data[1].dataPoints[17].y = parseFloat(((Math.pow((1+netrtn2),18))*n1).toFixed(3));
+  chart.data[1].dataPoints[18].y = parseFloat(((Math.pow((1+netrtn2),19))*n1).toFixed(3));
+  chart.data[1].dataPoints[19].y = parseFloat(((Math.pow((1+netrtn2),20))*n1).toFixed(3));
+   chart.data[1].dataPoints[20].y = parseFloat(((Math.pow((1+netrtn2),21))*n1).toFixed(3));
+  chart.data[1].dataPoints[21].y = parseFloat(((Math.pow((1+netrtn2),22))*n1).toFixed(3));
+    chart.data[1].dataPoints[22].y = parseFloat(((Math.pow((1+netrtn2),23))*n1).toFixed(3));
+  chart.data[1].dataPoints[23].y = parseFloat(((Math.pow((1+netrtn2),24))*n1).toFixed(3));
+  chart.data[1].dataPoints[24].y = parseFloat(((Math.pow((1+netrtn2),25))*n1).toFixed(3));
+  chart.data[1].dataPoints[25].y = parseFloat(((Math.pow((1+netrtn2),26))*n1).toFixed(3));
+ chart.data[1].dataPoints[26].y = parseFloat(((Math.pow((1+netrtn2),27))*n1).toFixed(3));
+  chart.data[1].dataPoints[27].y = parseFloat(((Math.pow((1+netrtn2),28))*n1).toFixed(3));
+  chart.data[1].dataPoints[28].y = parseFloat(((Math.pow((1+netrtn2),29))*n1).toFixed(3));
+  chart.data[1].dataPoints[29].y = parseFloat(((Math.pow((1+netrtn2),30))*n1).toFixed(3));
+  
+  
+  /* pass dataa for chart 1, series 3 */
+  
+  
+  chart.data[2].dataPoints[0].y = parseFloat(((Math.pow((1+netrtn3),1))*n1).toFixed(3));
+  chart.data[2].dataPoints[1].y = parseFloat(((Math.pow((1+netrtn3),2))*n1).toFixed(3));
+  chart.data[2].dataPoints[2].y = parseFloat(((Math.pow((1+netrtn3),3))*n1).toFixed(3));
+  chart.data[2].dataPoints[3].y = parseFloat(((Math.pow((1+netrtn3),4))*n1).toFixed(3));
+  chart.data[2].dataPoints[4].y = parseFloat(((Math.pow((1+netrtn3),5))*n1).toFixed(3));
+  chart.data[2].dataPoints[5].y = parseFloat(((Math.pow((1+netrtn3),6))*n1).toFixed(3));
+  chart.data[2].dataPoints[6].y = parseFloat(((Math.pow((1+netrtn3),7))*n1).toFixed(3));
+  chart.data[2].dataPoints[7].y = parseFloat(((Math.pow((1+netrtn3),8))*n1).toFixed(3));
+  chart.data[2].dataPoints[8].y = parseFloat(((Math.pow((1+netrtn3),9))*n1).toFixed(3));
+  chart.data[2].dataPoints[9].y = parseFloat(((Math.pow((1+netrtn3),10))*n1).toFixed(3));
+  chart.data[2].dataPoints[10].y = parseFloat(((Math.pow((1+netrtn3),11))*n1).toFixed(3));
+  chart.data[2].dataPoints[11].y = parseFloat(((Math.pow((1+netrtn3),12))*n1).toFixed(3));
+  chart.data[2].dataPoints[12].y = parseFloat(((Math.pow((1+netrtn3),13))*n1).toFixed(3));
+  chart.data[2].dataPoints[13].y = parseFloat(((Math.pow((1+netrtn3),14))*n1).toFixed(3));
+  chart.data[2].dataPoints[14].y = parseFloat(((Math.pow((1+netrtn3),15))*n1).toFixed(3));
+  chart.data[2].dataPoints[15].y = parseFloat(((Math.pow((1+netrtn3),16))*n1).toFixed(3));
+  chart.data[2].dataPoints[16].y = parseFloat(((Math.pow((1+netrtn3),17))*n1).toFixed(3));
+  chart.data[2].dataPoints[17].y = parseFloat(((Math.pow((1+netrtn3),18))*n1).toFixed(3));
+  chart.data[2].dataPoints[18].y = parseFloat(((Math.pow((1+netrtn3),19))*n1).toFixed(3));
+  chart.data[2].dataPoints[19].y = parseFloat(((Math.pow((1+netrtn3),20))*n1).toFixed(3));
+    chart.data[2].dataPoints[20].y = parseFloat(((Math.pow((1+netrtn3),21))*n1).toFixed(3));
+  chart.data[2].dataPoints[21].y = parseFloat(((Math.pow((1+netrtn3),22))*n1).toFixed(3));
+  chart.data[2].dataPoints[22].y = parseFloat(((Math.pow((1+netrtn3),23))*n1).toFixed(3));
+  chart.data[2].dataPoints[23].y = parseFloat(((Math.pow((1+netrtn3),24))*n1).toFixed(3));
+  chart.data[2].dataPoints[24].y = parseFloat(((Math.pow((1+netrtn3),25))*n1).toFixed(3));
+  chart.data[2].dataPoints[25].y = parseFloat(((Math.pow((1+netrtn3),26))*n1).toFixed(3));
+  chart.data[2].dataPoints[26].y = parseFloat(((Math.pow((1+netrtn3),27))*n1).toFixed(3));
+  chart.data[2].dataPoints[27].y = parseFloat(((Math.pow((1+netrtn3),28))*n1).toFixed(3));
+  chart.data[2].dataPoints[28].y = parseFloat(((Math.pow((1+netrtn3),29))*n1).toFixed(3));
+  chart.data[2].dataPoints[29].y = parseFloat(((Math.pow((1+netrtn3),30))*n1).toFixed(3));
+  
+  
+  
+  
+  /* need to set this stuff up to pass into data array 
+  
+  ####
+  ####
+  ####
+  ###
+  #####
+  ####
+####
+####
+  
+  
+  
+  **/
+  
+  /* volatility = vol
+  
+  volatility term = vt
+  
+  net return CC = netrtn
+  */
+  
+  
+  /* pass data for chart2, series 1 
+  
+  
+  >> pass in volatility function; use input for user probability --> distribution function --> standardised volatility function
+  
+  
+  */
+  
+  chart2.data[0].dataPoints[0].y = parseFloat((((Math.pow((1+netrtn),1))/(1+(vt*(Math.sqrt(1)))))*0.85).toFixed(3));
+  chart2.data[0].dataPoints[1].y = parseFloat((((Math.pow((1+netrtn),2))/(1+(vt*(Math.sqrt(2)))))*0.85).toFixed(3));
+  chart2.data[0].dataPoints[2].y = parseFloat((((Math.pow((1+netrtn),3))/(1+(vt*(Math.sqrt(3)))))*0.85).toFixed(3));
+  chart2.data[0].dataPoints[3].y = parseFloat((((Math.pow((1+netrtn),4))/(1+(vt*(Math.sqrt(4)))))*0.85).toFixed(3));
+  chart2.data[0].dataPoints[4].y = parseFloat((((Math.pow((1+netrtn),5))/(1+(vt*(Math.sqrt(5)))))*0.85).toFixed(3));
+  chart2.data[0].dataPoints[5].y = parseFloat((((Math.pow((1+netrtn),6))/(1+(vt*(Math.sqrt(6)))))*0.85).toFixed(3));
+    chart2.data[0].dataPoints[6].y = parseFloat((((Math.pow((1+netrtn),7))/(1+(vt*(Math.sqrt(7)))))*0.85).toFixed(3));
+  chart2.data[0].dataPoints[7].y = parseFloat((((Math.pow((1+netrtn),8))/(1+(vt*(Math.sqrt(8)))))*0.85).toFixed(3));
+  chart2.data[0].dataPoints[8].y = parseFloat((((Math.pow((1+netrtn),9))/(1+(vt*(Math.sqrt(9)))))*0.85).toFixed(3));
+  chart2.data[0].dataPoints[9].y = parseFloat((((Math.pow((1+netrtn),10))/(1+(vt*(Math.sqrt(10)))))*0.85).toFixed(3));
+  chart2.data[0].dataPoints[10].y = parseFloat((((Math.pow((1+netrtn),11))/(1+(vt*(Math.sqrt(11)))))*0.85).toFixed(3));
+  chart2.data[0].dataPoints[11].y = parseFloat((((Math.pow((1+netrtn),12))/(1+(vt*(Math.sqrt(12)))))*0.85).toFixed(3));
+  chart2.data[0].dataPoints[12].y = parseFloat((((Math.pow((1+netrtn),13))/(1+(vt*(Math.sqrt(13)))))*0.85).toFixed(3));
+  chart2.data[0].dataPoints[13].y = parseFloat((((Math.pow((1+netrtn),14))/(1+(vt*(Math.sqrt(14)))))*0.85).toFixed(3));  
+  chart2.data[0].dataPoints[14].y = parseFloat((((Math.pow((1+netrtn),15))/(1+(vt*(Math.sqrt(15)))))*0.85).toFixed(3));
+  chart2.data[0].dataPoints[15].y = parseFloat((((Math.pow((1+netrtn),16))/(1+(vt*(Math.sqrt(16)))))*0.85).toFixed(3));
+  chart2.data[0].dataPoints[16].y = parseFloat((((Math.pow((1+netrtn),17))/(1+(vt*(Math.sqrt(17)))))*0.85).toFixed(3));
+   chart2.data[0].dataPoints[17].y = parseFloat((((Math.pow((1+netrtn),18))/(1+(vt*(Math.sqrt(18)))))*0.85).toFixed(3));
+  chart2.data[0].dataPoints[18].y = parseFloat((((Math.pow((1+netrtn),19))/(1+(vt*(Math.sqrt(19)))))*0.85).toFixed(3));
+  chart2.data[0].dataPoints[19].y = parseFloat((((Math.pow((1+netrtn),20))/(1+(vt*(Math.sqrt(20)))))*0.85).toFixed(3));  
+  chart2.data[0].dataPoints[20].y = parseFloat((((Math.pow((1+netrtn),21))/(1+(vt*(Math.sqrt(21)))))*0.85).toFixed(3));
+  chart2.data[0].dataPoints[21].y = parseFloat((((Math.pow((1+netrtn),22))/(1+(vt*(Math.sqrt(22)))))*0.85).toFixed(3));
+  chart2.data[0].dataPoints[22].y = parseFloat((((Math.pow((1+netrtn),23))/(1+(vt*(Math.sqrt(23)))))*0.85).toFixed(3));
+  chart2.data[0].dataPoints[23].y = parseFloat((((Math.pow((1+netrtn),24))/(1+(vt*(Math.sqrt(24)))))*0.85).toFixed(3));
+  chart2.data[0].dataPoints[24].y = parseFloat((((Math.pow((1+netrtn),25))/(1+(vt*(Math.sqrt(25)))))*0.85).toFixed(3));
+  chart2.data[0].dataPoints[25].y = parseFloat((((Math.pow((1+netrtn),26))/(1+(vt*(Math.sqrt(26)))))*0.85).toFixed(3));  
+  chart2.data[0].dataPoints[26].y = parseFloat((((Math.pow((1+netrtn),27))/(1+(vt*(Math.sqrt(27)))))*0.85).toFixed(3));
+  chart2.data[0].dataPoints[27].y = parseFloat((((Math.pow((1+netrtn),28))/(1+(vt*(Math.sqrt(28)))))*0.85).toFixed(3));
+  chart2.data[0].dataPoints[28].y = parseFloat((((Math.pow((1+netrtn),29))/(1+(vt*(Math.sqrt(29)))))*0.85).toFixed(3));
+    chart2.data[0].dataPoints[29].y = parseFloat((((Math.pow((1+netrtn),30))/(1+(vt*(Math.sqrt(30)))))*0.85).toFixed(3));
+  
+  
+   
+
+
+/* pass data for chart2, series 2 */
+
+chart2.data[1].dataPoints[0].y = parseFloat((((Math.pow((1+netrtn),1))*(1+(vt*(Math.sqrt(1)))))*0.85).toFixed(3));
+  chart2.data[1].dataPoints[1].y = parseFloat((((Math.pow((1+netrtn),2))*(1+(vt*(Math.sqrt(2)))))*0.85).toFixed(3));
+  chart2.data[1].dataPoints[2].y = parseFloat((((Math.pow((1+netrtn),3))*(1+(vt*(Math.sqrt(3)))))*0.85).toFixed(3));
+  chart2.data[1].dataPoints[3].y = parseFloat((((Math.pow((1+netrtn),4))*(1+(vt*(Math.sqrt(4)))))*0.85).toFixed(3));
+  chart2.data[1].dataPoints[4].y = parseFloat((((Math.pow((1+netrtn),5))*(1+(vt*(Math.sqrt(5)))))*0.85).toFixed(3));
+  chart2.data[1].dataPoints[5].y = parseFloat((((Math.pow((1+netrtn),6))*(1+(vt*(Math.sqrt(6)))))*0.85).toFixed(3));
+    chart2.data[1].dataPoints[6].y = parseFloat((((Math.pow((1+netrtn),7))*(1+(vt*(Math.sqrt(7)))))*0.85).toFixed(3));
+  chart2.data[1].dataPoints[7].y = parseFloat((((Math.pow((1+netrtn),8))*(1+(vt*(Math.sqrt(8)))))*0.85).toFixed(3));
+  chart2.data[1].dataPoints[8].y = parseFloat((((Math.pow((1+netrtn),9))*(1+(vt*(Math.sqrt(9)))))*0.85).toFixed(3));
+  chart2.data[1].dataPoints[9].y = parseFloat((((Math.pow((1+netrtn),10))*(1+(vt*(Math.sqrt(10)))))*0.85).toFixed(3));
+  chart2.data[1].dataPoints[10].y = parseFloat((((Math.pow((1+netrtn),11))*(1+(vt*(Math.sqrt(11)))))*0.85).toFixed(3));
+  chart2.data[1].dataPoints[11].y = parseFloat((((Math.pow((1+netrtn),12))*(1+(vt*(Math.sqrt(12)))))*0.85).toFixed(3));
+  chart2.data[1].dataPoints[12].y = parseFloat((((Math.pow((1+netrtn),13))*(1+(vt*(Math.sqrt(13)))))*0.85).toFixed(3));
+  chart2.data[1].dataPoints[13].y = parseFloat((((Math.pow((1+netrtn),14))*(1+(vt*(Math.sqrt(14)))))*0.85).toFixed(3));  
+  chart2.data[1].dataPoints[14].y = parseFloat((((Math.pow((1+netrtn),15))*(1+(vt*(Math.sqrt(15)))))*0.85).toFixed(3));
+  chart2.data[1].dataPoints[15].y = parseFloat((((Math.pow((1+netrtn),16))*(1+(vt*(Math.sqrt(16)))))*0.85).toFixed(3));
+  chart2.data[1].dataPoints[16].y = parseFloat((((Math.pow((1+netrtn),17))*(1+(vt*(Math.sqrt(17)))))*0.85).toFixed(3));
+   chart2.data[1].dataPoints[17].y = parseFloat((((Math.pow((1+netrtn),18))*(1+(vt*(Math.sqrt(18)))))*0.85).toFixed(3));
+  chart2.data[1].dataPoints[18].y = parseFloat((((Math.pow((1+netrtn),19))*(1+(vt*(Math.sqrt(19)))))*0.85).toFixed(3));
+  chart2.data[1].dataPoints[19].y = parseFloat((((Math.pow((1+netrtn),20))*(1+(vt*(Math.sqrt(20)))))*0.85).toFixed(3));  
+  chart2.data[1].dataPoints[20].y = parseFloat((((Math.pow((1+netrtn),21))*(1+(vt*(Math.sqrt(21)))))*0.85).toFixed(3));
+  chart2.data[1].dataPoints[21].y = parseFloat((((Math.pow((1+netrtn),22))*(1+(vt*(Math.sqrt(22)))))*0.85).toFixed(3));
+  chart2.data[1].dataPoints[22].y = parseFloat((((Math.pow((1+netrtn),23))*(1+(vt*(Math.sqrt(23)))))*0.85).toFixed(3));
+  chart2.data[1].dataPoints[23].y = parseFloat((((Math.pow((1+netrtn),24))*(1+(vt*(Math.sqrt(24)))))*0.85).toFixed(3));
+  chart2.data[1].dataPoints[24].y = parseFloat((((Math.pow((1+netrtn),25))*(1+(vt*(Math.sqrt(25)))))*0.85).toFixed(3));
+  chart2.data[1].dataPoints[25].y = parseFloat((((Math.pow((1+netrtn),26))*(1+(vt*(Math.sqrt(26)))))*0.85).toFixed(3));  
+  chart2.data[1].dataPoints[26].y = parseFloat((((Math.pow((1+netrtn),27))*(1+(vt*(Math.sqrt(27)))))*0.85).toFixed(3));
+  chart2.data[1].dataPoints[27].y = parseFloat((((Math.pow((1+netrtn),28))*(1+(vt*(Math.sqrt(28)))))*0.85).toFixed(3));
+  chart2.data[1].dataPoints[28].y = parseFloat((((Math.pow((1+netrtn),29))*(1+(vt*(Math.sqrt(29)))))*0.85).toFixed(3));
+    chart2.data[1].dataPoints[29].y = parseFloat((((Math.pow((1+netrtn),30))*(1+(vt*(Math.sqrt(30)))))*0.85).toFixed(3));
+  
+  
+  /* pass data for chart2, series 3   --- for debt, pass same version as used in chart 1 ....  extend to n40, spline*/
+  
+  
+  chart2.data[2].dataPoints[0].y = parseFloat(((Math.pow((1+netrtn3),1))*n1).toFixed(3));
+  chart2.data[2].dataPoints[1].y = parseFloat(((Math.pow((1+netrtn3),2))*n1).toFixed(3));
+  chart2.data[2].dataPoints[2].y = parseFloat(((Math.pow((1+netrtn3),3))*n1).toFixed(3));
+  chart2.data[2].dataPoints[3].y = parseFloat(((Math.pow((1+netrtn3),4))*n1).toFixed(3));
+  chart2.data[2].dataPoints[4].y = parseFloat(((Math.pow((1+netrtn3),5))*n1).toFixed(3));
+  chart2.data[2].dataPoints[5].y = parseFloat(((Math.pow((1+netrtn3),6))*n1).toFixed(3));
+  chart2.data[2].dataPoints[6].y = parseFloat(((Math.pow((1+netrtn3),7))*n1).toFixed(3));
+  chart2.data[2].dataPoints[7].y = parseFloat(((Math.pow((1+netrtn3),8))*n1).toFixed(3));
+  chart2.data[2].dataPoints[8].y = parseFloat(((Math.pow((1+netrtn3),9))*n1).toFixed(3));
+  chart2.data[2].dataPoints[9].y = parseFloat(((Math.pow((1+netrtn3),10))*n1).toFixed(3));
+  chart2.data[2].dataPoints[10].y = parseFloat(((Math.pow((1+netrtn3),11))*n1).toFixed(3));
+  chart2.data[2].dataPoints[11].y = parseFloat(((Math.pow((1+netrtn3),12))*n1).toFixed(3));
+  chart2.data[2].dataPoints[12].y = parseFloat(((Math.pow((1+netrtn3),13))*n1).toFixed(3));
+  chart2.data[2].dataPoints[13].y = parseFloat(((Math.pow((1+netrtn3),14))*n1).toFixed(3));
+  chart2.data[2].dataPoints[14].y = parseFloat(((Math.pow((1+netrtn3),15))*n1).toFixed(3));
+  chart2.data[2].dataPoints[15].y = parseFloat(((Math.pow((1+netrtn3),16))*n1).toFixed(3));
+  chart2.data[2].dataPoints[16].y = parseFloat(((Math.pow((1+netrtn3),17))*n1).toFixed(3));
+  chart2.data[2].dataPoints[17].y = parseFloat(((Math.pow((1+netrtn3),18))*n1).toFixed(3));
+  chart2.data[2].dataPoints[18].y = parseFloat(((Math.pow((1+netrtn3),19))*n1).toFixed(3));
+  chart2.data[2].dataPoints[19].y = parseFloat(((Math.pow((1+netrtn3),20))*n1).toFixed(3));
+    chart2.data[2].dataPoints[20].y = parseFloat(((Math.pow((1+netrtn3),21))*n1).toFixed(3));
+  chart2.data[2].dataPoints[21].y = parseFloat(((Math.pow((1+netrtn3),22))*n1).toFixed(3));
+  chart2.data[2].dataPoints[22].y = parseFloat(((Math.pow((1+netrtn3),23))*n1).toFixed(3));
+  chart2.data[2].dataPoints[23].y = parseFloat(((Math.pow((1+netrtn3),24))*n1).toFixed(3));
+  chart2.data[2].dataPoints[24].y = parseFloat(((Math.pow((1+netrtn3),25))*n1).toFixed(3));
+  chart2.data[2].dataPoints[25].y = parseFloat(((Math.pow((1+netrtn3),26))*n1).toFixed(3));
+  chart2.data[2].dataPoints[26].y = parseFloat(((Math.pow((1+netrtn3),27))*n1).toFixed(3));
+  chart2.data[2].dataPoints[27].y = parseFloat(((Math.pow((1+netrtn3),28))*n1).toFixed(3));
+  chart2.data[2].dataPoints[28].y = parseFloat(((Math.pow((1+netrtn3),29))*n1).toFixed(3));
+  chart2.data[2].dataPoints[29].y = parseFloat(((Math.pow((1+netrtn3),30))*n1).toFixed(3));
+  
+  
+  
+  
+  
+  
+  
+  
+  chart.render();
+  chart2.render();
+});
+
+
+
+</script>
+
+
+<!--- end chart test zone -->
+
+
+</body>
+
+
+
+
+<!-- script section for main calculations / inputOutput....-->
+<script>
+ document.body.style.backgroundColor ="lemonChiffon"
+function calculate() 
+{
+
+const formatter = new Intl.NumberFormat('en-US', {style: 'currency', currency: 'USD', minimumFractionDigits: 0  })
+
+var grossY_raw = document.getElementById("income").value;
+
+/////  PASSWORD BLOCK
+// "x2W!i&"
+var password_entry = document.getElementById("password").value;
+
+var password_block1;
+            if (password_entry == "pass1" ){password_entry = 0}
+            else {password_entry = "break"}
+
+//////
+
+      var disclaimer = document.getElementById("disclaimer").value;
+      var disclaimer_block1;
+            if (disclaimer == "YES" ){disclaimer_block1 = 0}
+            else {disclaimer_block1 = grossY_raw}
+
+var grossY = grossY_raw - disclaimer_block1 + password_entry
+
+///////
+
+var xtra = document.getElementById("extrasuper").value;
+var x = grossY - xtra
+var age = document.getElementById("age").value;
+var retireage = document.getElementById("retireage").value;
+var inflation = document.getElementById("inflation").value;
+
+/* YEARS TO RETIREMENT */
+
+var yearstoretirement = retireage - age
+var sgcrate = document.getElementById("sgc").value;
+var superbalance = document.getElementById("superbalance").value;
+var valueofcurrentsuper = (superbalance * 1)
+
+// existing cash savings: ///
+var cashsavings = document.getElementById("cashsavings").value;
+/// cash interest rate : ///
+var cashrate = (document.getElementById("cashrate").value) || 0;
+
+
+
+var debtbalance = document.getElementById("debtbalance").value;
+var valueofcurrentdebt = (debtbalance*1)
+
+var currentinvestmentbalance = document.getElementById("otherinvest").value;
+
+
+
+var sgc = (Math.min(25000,((sgcrate/100)*grossY))) 
+const sgcpaid = Math.min(25000,(sgc))
+var mortgage = document.getElementById("mortgage").value;
+var expenses = document.getElementById("expenses").value;
+
+/* super investment return data */
+var rtn = document.getElementById("return").value;
+var vol = document.getElementById("volatility").value;
+var fees = document.getElementById("fees").value;
+var volatility = Math.max(0.0,vol)
+var turnover = document.getElementById("turnover").value;
+
+
+
+/////
+//  investment return data ///
+
+var rtn2 = document.getElementById("return2").value;
+var vol2 = document.getElementById("volatility2").value;
+var fees2 = document.getElementById("fees2").value;
+var volatility2 = Math.max(0.0,vol2)
+var turnover2 = document.getElementById("turnover2").value;
+// remind of total marginal tax rate = totalmarginal/x  ...therefore tax rate on earnings is...///
+
+
+
+//////
+////
+////
+
+////
+////
+////
+/////
+
+
+
+
+
+
+
+
+var tx;
+if (x < 18201){tx = 0;} 
+else if (x < 37001) { tx = ((x - 18201)*0.19);}
+else if (x < 90001) { tx = ((x - 37000)*0.325)+3572;}
+else if (x < 180001) { tx = (((x - 90000)*0.37)+20797);}
+else { tx = ((((x-180000))*0.45)+54097);}
+
+var mtr;
+if (x < 18201){mtr = 0;} 
+else if (x < 37001) { mtr = 0.19;}
+else if (x < 87001) { mtr = 0.325;}
+else if (x < 180001) { mtr = 0.39;}
+else { mtr = 0.47;}
+
+var medicarerate;
+if (x < 21980){medicarerate = 0.0;} 
+else if (x > 27476) { medicarerate = 2.0;}
+else { medicarerate = ((((x-21980)*0.1)/x)*100).toFixed(0);}
+
+var medicaresurcharge;
+if (x < 90000){medicaresurcharge = 0;} 
+else if (x < 104999) { medicaresurcharge = 1;}
+else if (x > 139999) { medicaresurcharge = 1.25;}
+else { medicaresurcharge = 1.5;}
+
+var LITO;
+if (x > 66667) {LITO = 0;}
+else if (x < 37000){LITO = Math.min(tx,445);}
+else {LITO = (445-((x-37000)*0.015));}
+
+var medicarepayable = (x * (medicarerate/100))
+var mlspayable = (x * (medicaresurcharge/100))
+var totalmarginal = medicaresurcharge + medicarerate + (mtr*100)
+var taxratenonsuperassets = 0.1548877
+var avtax = (tx/x)*100
+var totaltaxandmedicarepayable = Math.max(0,(tx + medicarepayable + mlspayable - LITO))
+var netincome = x - totaltaxandmedicarepayable
+var surplus = netincome - expenses 
+var surpluspc = (surplus / grossY)*100
+
+
+var turnover2pc = turnover2/100
+
+
+var turnovertaxratio2 = Math.min(1, (turnover2pc + ((1-turnover2pc)*0.5))  )
+var taxrateonearnings = totalmarginal * turnovertaxratio2
+
+///
+
+var nonsuperinvestmentportfolioreturn = ((rtn2-fees2)*(1-(taxrateonearnings/100))) - (inflation)
+
+var netcashrate = (((cashrate/100) * (1-(taxrateonearnings/100))))-(inflation/100)
+
+
+
+/////  and output just for zeros -- ie, deadspending will always be zero as optimal use ///
+document.getElementById("justzeros").value = formatter.format(0)
+/// N/A tags....
+document.getElementById("N_a").value = "N/A"
+
+/////
+
+
+
+
+/// used of surplus ///
+
+// AA & AB --- SPENDING //
+var testAB = document.getElementById("testAA").value;
+document.getElementById("testAB").innerHTML =  formatter.format(testAB)
+// BB & BA --- INVEST (NON SUPER) //
+var testBB = document.getElementById("testBA").value;
+document.getElementById("testBB").innerHTML =  formatter.format(testBB)
+
+// CA & CB --- CASH SAVINGS CONTRIBUTIONS
+var testCB = (document.getElementById("testCA").value) || 0 ;
+
+document.getElementById("testCB").innerHTML =  formatter.format(testCB)
+
+
+
+
+
+// DEBTPAY -- additional debt repayments
+var debtpay1 = (document.getElementById("debtpay1").value) || 0;
+// nonc1 - ADDITIONAL SUPER - NCC
+var nonc1 = document.getElementById("nonc1").value;
+var nccsavings1 = document.getElementById("nonc1").value;
+// unallocated CURRENT //          
+var unallocated1 = surplus - testAB - testBB - testCB - nonc1 - debtpay1
+document.getElementById("residual1").innerHTML = formatter.format(unallocated1.toFixed(0))
+
+
+// UNALLOCATED1 is our current scenario's residual.  We want to account for this in our projection by diverting to savings or borrowing (debt).  This provides a fairer comparison of the current-vs-optimised scenarion.  This is most important for scenarios where the unallocated is negative, because it will usually mean the current (optimised strategy) cannot keep pace.
+
+// To do this, first we want to check whether the residual result is positive or negative.  Easy way to do this is if/else function for one of the outputs, with the second output being residual minus first output....
+
+// first, additional drawings from debt (Note: this will convert the number to a POSITIVE number, and will need to be DEDUCTED from Payments in DEBT PROJECTION !!!)
+var residual1_funded_with_debt = 
+
+parseInt( -(Math.min(0, unallocated1)))
+// Additional cash contributions -- add this to payments....
+var residual1_contributed_to_cash = parseInt(Math.max(0, unallocated1))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+document.getElementById("ati2").innerHTML = formatter.format(x.toFixed(0))
+
+document.getElementById("ati3").innerHTML = formatter.format(x.toFixed(0))
+
+
+ 
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//// L I F E   E X P E C T A N C Y  O U T P U T  ///////
+//////////////////////////////////////////////////////// INSERT THE ARRAY
+
+var life_expectancy_female = [
+
+84.62698	,83.8852	,82.90369	,81.9143	,80.92316	,79.93061	,78.93693	,77.94242	,76.94742	,75.95223	,74.95703	,73.96192	,72.96724	,71.97349	,70.98113	,69.99045	,69.00165	,68.01449	,67.02845	,66.04314	,65.05812	,64.07305	,63.08773	,
+62.10236	,61.11702	,60.13188	,59.14722	,58.163	,57.17911	,56.19568	,55.21314	,54.23181	,53.25199	,52.27378	,51.29735	,50.32295	,49.35027	,48.37884	,47.40874	,46.44022	,45.47352	,44.50897	,43.5468	,42.58735	,41.63078	,40.67712	,39.72614	,38.77781	,37.83245	,36.89052	,35.95214	,35.01754	,34.08682	,33.15984	,32.2365	,31.3168	,30.40072	,29.48836	,28.58	,27.67607	,26.77643	,25.88095	,24.98927	,24.10177	,23.21892	,22.34173	,21.47142	,20.60929	,19.75618	,18.9123	,18.07779	,17.25317	,16.43902	,15.63619	,14.84582	,14.06863	,13.3055	,12.55744	,11.82578	,11.11204	,10.41747	,9.7439	,9.0933	,8.46763	,7.86832	,7.29695	,6.75426	,6.24047	,5.75666	,5.3039	,4.88374	,4.49766	,4.146	,3.82992	,3.55032	,3.30835	,3.06019	,2.84906	,2.65548	,2.47702	, 2.3	,	1.955	,	1.66175	,	1.4124875	,	1.200614375	,	1.020522219	,	0.867443886	,	0.737327303	,	0.626728208	,	0.532718976	,	0.45281113	,	0.38488946	,	0.327156041	,	0.278082635	,	0.23637024	,	0.200914704
+];
+
+//////////////////////  RETRIEVE THE NUMBER 
+
+var your_life = life_expectancy_female[age];
+var life_expectancy_at_retirement = life_expectancy_female[retireage];
+
+
+
+/////////////////////
+//////////////////////  
+
+
+document.getElementById("netincome").innerHTML = "Your Net Income is estimated at " + formatter.format(netincome.toFixed(0))
+
+
+
+
+document.getElementById("surplus").innerHTML = "Your savings capacity is estimated at " + formatter.format(surplus.toFixed(0)) + " per annum ("  + surpluspc.toFixed(1) + "% of your gross income)"
+
+
+
+//
+//
+
+
+
+
+
+//
+// stuff for summary table with detailed tax component data // 
+
+//   **** CURRENT SCENARIO ****
+
+document.getElementById("grossY1").innerHTML =   formatter.format(grossY)
+document.getElementById("cc1").innerHTML =   formatter.format(xtra)
+
+/* Tax & Medicare, offsets & rebates */
+
+document.getElementById("taxprint").innerHTML =   formatter.format( tx.toFixed(0))
+document.getElementById("medicareprint").innerHTML = formatter.format(medicarepayable.toFixed(0))
+document.getElementById("mlsprint").innerHTML =   formatter.format(mlspayable.toFixed(0))
+document.getElementById("litoprint").innerHTML = formatter.format(LITO.toFixed(0))
+document.getElementById("totalprint").innerHTML =   formatter.format(  (tx + medicarepayable + mlspayable - LITO).toFixed(0)    )
+document.getElementById("exp1").innerHTML =   formatter.format(expenses)
+document.getElementById("surplus1").innerHTML =   formatter.format(surplus.toFixed(0))
+
+/* use of surplus:  */
+/* CURRENT */
+       	 	document.getElementById("debtrepayment1").innerHTML =   formatter.format(debtpay1)
+					document.getElementById("nccsavings1").innerHTML = formatter.format(nccsavings1)  
+					document.getElementById("nonc1").innerHTML =   formatter.format(nonc1)
+					document.getElementById("unallocated1").innerHTML = "You have an unallocated surplus of " + formatter.format((unallocated1).toFixed(0))
+
+//  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*   OPTIMISATION PROBLEMS --- WIP */
+
+/* variables we need :
+ *Gross Y 
+ *current extra concessional contributions
+ *SGR rate
+ *Marginal total tax rate
+ *Effective tax rate on investment earnings in super
+ *Effective tax rate on investments outside super
+ *Number of years until retirement
+ *Net value of $1 gross income:
+ --used to pay down debt
+ --used for NCC
+ --used for investment portfolio outside super
+ --used for investment in super (only for optimsed scenario #3!)
+
+
+
+*/
+/*/ OPTIMISATION -- VARIABLES to recall:  
+
+**NOTE -- we need to control for situations where CC outperforms NCC, but where max CC would bring ATI below effective tax free threshold....
+    
+**ACTION ITEM    ***** to do this, when calculating CC capacity we should calculate this as the lesser of [25k-cc-(sgcrate*GrossY)] and [GrossY - (effective tax free threshold)] ... just double check that the marginal rate of increase above effective tax free threshold exceeds 15%).  In the event that CC is the best option, but CC capacity runs out due to this rule, the residual should be directed to NCC (as this provides the same comparison rate but without reductions due to contributions tax)
+****
+
+
+1) compare output of each option @ retirement date
+2) if best option is anything other than CC -- 100% allocation:
+
+..or else...
+
+3) CC is best; 
+    3.1) first check how much capacity is available (being $25k - CC - (sgcrate * GrossY))
+		3.2) calculate [surplus / (1-totalmarginal)].... if this is less than surplus, then 100% will be allocated to CC as (surplus/(1-mtr)).... however, this may result in a cash flow SHORTFALL in event that MTR thresholds or MLS is crossed.  ***Possible solution: run solution then use this to run a second solution with shortfall directly (or concessionally?) deducted from CC deduction.  This will lead to a small surplus (as original shortfall will be equal to the change in effective total rates, multiplied by the proportion of assessable income below the specified threshold)
+    
+    ALTERNATIVE
+    Alternative (more accurate) method might be to run tax formulas that specify how far we (pre-optimised) ATI is from the next tax threshold, and the rate of tax on the next threshold.  This way we could use an if/else function to calculate the total CC in two steps (with second step being == 0 if no thresholds are crossed)....  ** Problem with this approach will be effect of LITO, MLS and Medicare....
+    
+    PROPOSED APPROACH:
+    Apply first two-step process.  We could possibly adjust the second-step CC.... instead of deducting 100% of the variance we could scale the reduction to allow for taxes...  In this case, we want to know the largest potential spread in effective MTRs.  Using this, we can scale the reduction to : [variance] x [1-maxpotentialtax]...  For simplicity, we might assume a fixed step of 10% (?).  N
+    
+
+
+*/
+
+///   *** OPTIMISED SCENARIO ****  COLUMN #2 ********** ////
+
+					document.getElementById("grossY2").innerHTML =   formatter.format(grossY)
+					document.getElementById("cc2").innerHTML =   formatter.format(xtra)
+					document.getElementById("taxprint2").innerHTML =   formatter.format( tx.toFixed(0))
+
+
+
+					/// anchor medicare #2
+
+
+
+					document.getElementById("medicareprint2").innerHTML = formatter.format(medicarepayable.toFixed(0))
+					document.getElementById("mlsprint2").innerHTML =   formatter.format(mlspayable.toFixed(0))
+					document.getElementById("litoprint2").innerHTML = formatter.format(LITO.toFixed(0))
+					document.getElementById("totalprint2").innerHTML =   formatter.format(  (tx + medicarepayable + mlspayable - LITO).toFixed(0)    )
+
+
+////////////
+////  FOR OPTIMISE 1 the allocation of surplus outputs will be completed following optimisation calculation/nesting -- around line 1800 - 1900 in code /////
+
+////////////
+        
+       
+
+
+
+
+document.getElementById("exp2").innerHTML =   formatter.format(expenses)
+document.getElementById("surplus2").innerHTML =   formatter.format(surplus.toFixed(0))
+//
+//
+//
+// 
+
+
+
+
+///
+
+
+
+
+// SUPER CONT -- net value CC dollars //
+var supercont = 0.85
+// debtrepay -- net value debt repayment dollars//
+var debtrepay = (1*(1-(totalmarginal/100)))
+// preservation age & answers //
+var preservationage;
+if (age < 55){preservationage = 60;}
+else if (age < 56){preservationage = 59;}
+else if (age < 57) {preservationage = 58}
+else {preservationage = "You can access your super now";}
+var preservationanswer;
+if (age<57){preservationanswer = "your preservation age is "+ preservationage}
+else {preservationanswer = "you have reached your preservation age already"}
+var preservationage2;
+if (age < 57){preservationage2 = preservationage;}
+else {preservationage2 = 57;}
+var yearstopres = Math.max(1,(preservationage2-age))
+var distancetocontributionscap = (25000-sgcpaid)
+var supercontributionoption;
+if ((25000-sgcpaid) < 1){supercontributionoption = "You have exceeded your concessional contributions cap!";}
+else {supercontributionoption = "You are still eligible to contribute up to " + (25000-sgcpaid).toFixed(0);}
+/*accumulated value of super & debt /*/
+
+var taxonsuper = (( 0.15 * (turnover/100)) + (0.1 * (1-(turnover/100))) )
+var netrtn = (((rtn - fees )*((1-taxonsuper)/100)) - (inflation/100))
+var netmor;
+			if (mortgage < 0.001){netmor = (-inflation/100)}
+			else {netmor = ((mortgage - inflation)/100)}
+
+// non super investment return ///
+
+
+
+////
+
+var superoutcome = (Math.pow(1+netrtn,yearstopres)*supercont)
+var debtoutcome = (Math.pow(1+(netmor),yearstopres)*debtrepay)
+
+var bestinvestment;
+if (superoutcome > debtoutcome){bestinvestment = "You should consider making additional contributions to superannuation"}
+else {bestinvestment = "You should consider paying down your debt before making additional super contributions"}
+var superorinvest;
+if (totalmarginal > 15){superorinvest = "making additional concessional contributions to super."}
+else {superorinvest = "investing outside of superannuation."}
+var bestuse;
+if (debtbalance>0){bestuse = bestinvestment;}
+else {bestuse = "You don't have any debt!  Given your income and tax rate, you should consider " +  superorinvest }
+
+
+
+/* outputs -- for inner HTML ... -->*/
+
+document.getElementById("tax").innerHTML = "The tax payable on your gross income is approximately " + formatter.format(tx) + " with a Marginal Tax Rate of " + (mtr*100) + "% (an average rate rate of " + avtax.toFixed(2) + "%). " +  " Based on your age, " + preservationanswer + "."
+
+document.getElementById("datacheck").innerHTML = "Data check2: "  +   supercont + "   --- and debt ---" + debtrepay + "  Net return est: " + netrtn + "  super outcome:  " + superoutcome.toFixed(2)  + "   mortgage: " + mortgage + "  Mortgage outcome: " + debtoutcome.toFixed(2)
++
+"Data check only:  Bestinvestment : " +
+bestinvestment  
++ 
+"<br/>"
++ 
+"<br/>"
++ 
+bestuse
++
+"<br/>" + "<br/>"
++ sgcrate + "%.  Total concessional contributions paid (SGC and voluntary extra): " + formatter.format(sgc) + ".  SGC Net: " + formatter.format(sgcpaid*0.85) + ".  Years to Pres: " + yearstopres   + "  Distance to contributions cap: " + formatter.format(distancetocontributionscap) + "  Volatility is set at (check for default levels)  " + volatility + "Super contribution options " + supercontributionoption + "  medicare rate: " + medicarerate + " medicare surcharge " + medicaresurcharge + "  Medicare payable ($) " + medicarepayable + " and MLS payable " + mlspayable + "  total marginal"+ totalmarginal
+
+
+
+
+
+
+
+///  P R O J E C T I O N S ////
+////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//  VALUE OF EXISTING ACCOUNTS, AT RETIREMENT ///
+
+
+
+
+// years: yearstoretirement
+
+
+
+// tax * return rates: 
+// non-super   ::   totalmarginal
+// investment return super : netrtn
+
+//debt  ***
+//  Value of current debt is :: valueofcurrentdebt
+// interest rate on mortgage debt:  netmor
+var currentdebtatretirement = (Math.pow((1+netmor),yearstoretirement)*(valueofcurrentdebt))
+
+
+
+//cash  ***
+//  Value of current cash is :: cashsavings
+// interest rate on mortgage debt:  netmor
+var cashatretirement1 = (Math.pow((1+netcashrate),yearstoretirement)*(cashsavings)) || 0
+
+
+//Super ****
+// value of current super is :: superbalance
+// net earnings on super (net fees & taxes): 
+var currentsuperatretirement = (Math.pow((1+netrtn),yearstoretirement)*(superbalance))
+
+
+// non-super investments
+// CURRENT INVEST BALANCE var currentinvestmentbalance 
+var currentnonsuperatretirement = Math.pow((1+( nonsuperinvestmentportfolioreturn/100  )),yearstoretirement)*currentinvestmentbalance
+
+
+////////////////////////////////
+
+/////////////////////////////////////////////////////
+
+/* VALUE OF DEBT REPAYMENTS - SCENARIO 1*/
+
+///////////////////////////////////////////////
+
+									function future_value_Debt1(PMT, IR, NP) {
+ 									 var FV = PMT * (Math.pow(1 + IR, NP) - 1) / IR
+ 									 return FV  }
+
+									function round_decimals(original_number, decimals) {
+ 									var result1d = original_number * Math.pow(10, decimals)
+  								var result2d = Math.round(result1d)
+  								var result3d = result2d / Math.pow(10, decimals)
+  								return (result3d)  }
+
+									var annual_payment = parseInt(debtpay1)  - parseInt(residual1_funded_with_debt)
+                  
+                  
+                  
+									var interest_rate = netmor
+									var investment_term = yearstoretirement
+									var investment_value_d1 = 
+                  	future_value_Debt1(annual_payment, interest_rate, 
+                  investment_term)
+                 
+////////////////////
+//Reminder: variable for excess unallocated is::  residual1_contributed_to_cash
+
+/* VALUE OF CASH CONtRIBUTIONS - SCENARIO 1*/
+
+									function future_value_cash1(PMT, IR, NP) {
+ 									 var FV = PMT * (Math.pow(1 + IR, NP) - 1) / IR
+ 									 return FV  }
+
+								
+
+									var annual_payment_c = ((parseInt(testCB)   + parseInt(residual1_contributed_to_cash)))  
+									var interest_rate_c = (netcashrate || 0)
+									var investment_term = yearstoretirement
+									var investment_value_c1 = 
+                  	future_value_cash1(annual_payment_c, interest_rate_c, 
+                  investment_term)
+
+
+
+///////////////
+
+
+
+
+
+/* VALUE OF SUPER CONTRIBUTIONS - SCENARIO 1*/
+// super contributions under this scenario:
+// SG:
+const netsgcpaid1 = (sgcpaid * 0.85)
+var totalsupercontributions1 = ( +nccsavings1 + +netsgcpaid1 + +xtra)
+
+
+
+									function future_value_super1(PMT, IR, NP) {
+ 									 var FV = PMT * (Math.pow(1 + IR, NP) - 1) / IR
+ 									 return FV  }
+
+									function round_decimals(original_number, decimals) {
+ 									var result1s = original_number * Math.pow(10, decimals)
+  								var result2s = Math.round(result1s)
+  								var result3s = result2s / Math.pow(10, decimals)
+  								return (result3s)  }
+
+									var annual_payments1 = totalsupercontributions1
+									var interest_rates1 = (netrtn)
+									var investment_terms1 = yearstoretirement
+									var investment_value_s1 = 
+                  	future_value_super1(annual_payments1, interest_rates1, 
+                  investment_terms1)
+                  
+                  
+////////////////////
+
+////////////////////
+
+/* VALUE OF INVESTMENT PORTFOLIO - SCENARIO 1  ## INVESTMENT PROJECTION ANCHOR1     */
+
+// 
+// ???????????????????  STILL NEED TO WORK OUT NET EARNINGS -- PROJECTIONS BELOW ASSUME 10% ???????????????
+//   var nonsuperinvestmentportfolioreturn = rtn2
+
+//
+ 
+ 
+ 
+
+
+									function future_value_invest1(PMT, IR, NP) {
+ 									 var FV = PMT * (Math.pow(1 + IR, NP) - 1) / IR
+ 									 return FV  }
+
+									function round_decimals(original_number, decimals) {
+ 									var result1i = original_number * Math.pow(10, decimals)
+  								var result2i = Math.round(result1i)
+  								var result3i = result2i / Math.pow(10, decimals)
+  								return (result3i)  }
+
+									var annual_payments_i1 = testBB
+									var interest_rates_i1 = nonsuperinvestmentportfolioreturn/100
+									var investment_terms_i1 = yearstoretirement
+									var investment_value_i1 = 
+                  	future_value_invest1(annual_payments_i1, interest_rates_i1, 
+                  investment_terms_i1)
+                
+////////////////////
+
+
+
+
+
+//
+//
+//
+//
+//
+///
+//
+
+
+
+var ratio_debt = Math.pow((1+netmor),yearstoretirement)
+var ratio_cash = Math.pow((1+netcashrate),yearstoretirement)
+var ratio_invest = Math.pow((1+(nonsuperinvestmentportfolioreturn/100)),yearstoretirement)
+var ratio_ncc = Math.pow((1+netrtn),yearstoretirement)
+
+
+
+// RESULT FOR FUTURE VALUE OF DEBT --- CURRENT SCENARIO //
+								
+                  
+// debt at retirement  -- output current scenario ///
+//// CUMULATIVE VALUE OF DEBT -- Current scenario
+var current_scenario_total_debt = ((currentdebtatretirement - investment_value_d1).toFixed(0))
+/////
+////  ...now we want to determine whether the balance has fallen below $0.  If so, we will allocate that to cash.  The cash allocation will be scaled to account for the lower return anticipated from cash.  We can use our pre-determined ratios for this (**check order of code in script -- ensure this was done in the code above, not below or it won't work).  
+/////
+
+var reported_debt_current;
+if (current_scenario_total_debt > 0) {reported_debt_current = current_scenario_total_debt;}
+else { reported_debt_current = 0}
+
+/////
+/// and decide if there is an overflow that we are directing to debt...
+var debt_overflow_to_cash;
+if (current_scenario_total_debt < 0) { debt_overflow_to_cash = current_scenario_total_debt;}
+else { debt_overflow_to_cash = 0}
+
+var debt_overflow_to_cash_net = -(debt_overflow_to_cash * (ratio_cash / ratio_debt))
+
+// first step; let's work out what we are reporting as the final debt:
+var reported_debt_current_scenario = (parseInt(current_scenario_total_debt) - parseInt(debt_overflow_to_cash)) || 0 
+
+/////////////
+var final_value_debt1_used = reported_debt_current
+document.getElementById("debtatretirement1").innerHTML = 
+ formatter.format(reported_debt_current  )
+ 
+// cash at retirement -- output current scenario
+var cashatretirement1_current = ( cashatretirement1   + investment_value_c1 + debt_overflow_to_cash_net        )
+
+document.getElementById("cashatretirement1").innerHTML = 
+formatter.format((cashatretirement1   + investment_value_c1 + debt_overflow_to_cash_net      ).toFixed(0)) 
+
+// super at retirement -- output current scenario
+var superatretirement1 = ( currentsuperatretirement + investment_value_s1  )
+document.getElementById("superatretirement1").innerHTML = 
+formatter.format((currentsuperatretirement + investment_value_s1).toFixed(0))
+
+/// non super investment portfolio --- feed to output table
+var nonsuperatretirement1 = (  currentnonsuperatretirement + investment_value_i1 )
+
+document.getElementById("nonsuperatretirement1").innerHTML =
+formatter.format((currentnonsuperatretirement + investment_value_i1).toFixed(0))
+
+//////////
+//// net assets at retirement - current scenario //
+////////
+var netassetsatretirement1 = (
+(currentsuperatretirement + investment_value_s1)
+-(currentdebtatretirement - investment_value_d1)  
++ (  currentnonsuperatretirement + investment_value_i1)
++ (  cashatretirement1   + investment_value_c1    )
+).toFixed(0)
+////////
+document.getElementById("netassetsatretirement1").innerHTML = formatter.format(netassetsatretirement1) 
+
+//////////////////////////////////
+
+///////////////////////////
+
+///  OPTIMISE SCENARIO --- FINDING BEST SCENARIO and ALLOCATING
+
+
+///  now we want to compare the net rates of return from each option
+
+// cash net rate is:
+var netcashrate_test = netcashrate
+// non-super invest net rate is:
+var netinvestrate_test = nonsuperinvestmentportfolioreturn/100
+// NCC net rate is:
+var netnccrate_test = netrtn
+// debt rate is: netmor 
+var netmor_test; if (debtbalance == 0){netmor_test = 0;} else {netmor_test = netmor}
+
+/////////////////////
+var maxresultnumber1 = Math.max(netcashrate_test, netinvestrate_test, netnccrate_test, netmor_test )
+/////////////////////
+//  !!!!   WE ALSO WANT TO PERFORM THIS TEST USING THE CUMULATIVE VALUE; this will become important when allocating DEBT OVERFLOW.  For this we want to model the output of each, compounded at yearstoretirement....
+//// note, we have also use this script at around line 2,130 in order to allocated debt overflow for current scenario. I have left this script here for reference, but can probably be deleted later...
+var ratio_debt = Math.pow((1+netmor),yearstoretirement)
+var ratio_cash = Math.pow((1+netcashrate),yearstoretirement)
+var ratio_invest = Math.pow((1+(nonsuperinvestmentportfolioreturn/100)),yearstoretirement)
+var ratio_ncc = Math.pow((1+netrtn),yearstoretirement)
+
+
+
+
+
+//////////////////////////
+//   ADD SURPLUS TO BEST OPTION
+////////////////////////////////////////
+
+//// now we have the max number, we need to find which option this applies to and direct the surplus to that option
+
+
+//// ADD CONTROL MECHANISM TO ENSURE A NEGATIVE SURPLUS GOES TO DEBT (FUNDED BY DEBT) ####  ////
+
+var surplus1 = Math.max(0,surplus)
+var surplus1_if_neg = Math.min(0,surplus)
+
+//$shill
+
+////////////////////////////////////
+
+
+var add_to_debt1; if (maxresultnumber1 == netmor_test){add_to_debt1 = surplus1}
+var add_to_cash2; if (maxresultnumber1 == netcashrate_test){add_to_cash2 = surplus1}
+var add_to_nonsuperinvest1; if (maxresultnumber1 == netinvestrate_test){add_to_nonsuperinvest1 = surplus1}
+var add_to_NCC1; if (maxresultnumber1 == netnccrate_test){add_to_NCC1 = surplus1}
+
+//  NOW ALLOCATE THESE RESULTS TO THE RELEVANT TABLES ///
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////  OPTIMISE SCENARIO 1 -- OUTPUT TABLE -- uSE OF CASH FLOW SURPLUS ////
+
+/////////////////////////////$shill
+
+ document.getElementById("debtrepayment2").innerHTML =   formatter.format(((+add_to_debt1 || 0) +  parseInt(surplus1_if_neg)  ).toFixed(0))
+				document.getElementById("nccsavings2").innerHTML = formatter.format((+add_to_NCC1 || 0).toFixed(0))
+        document.getElementById("cashsavings2").innerHTML = formatter.format((+add_to_cash2 || 0).toFixed(0))
+         document.getElementById("investsavings2").innerHTML = formatter.format((+add_to_nonsuperinvest1 || 0).toFixed(0))
+				document.getElementById("residual2").innerHTML = formatter.format(0) 
+        
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        
+   //    COLUMN TWO PROJECTIION  /   /   /    /     
+         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+         
+   
+/* VALUE OF DEBT CONtRIBUTIONS - SCENARIO 2*/								
+//////////////    DEBT TEST 1   //////////////////////////////////////////
+//////////////////////////////////////////////////////
+
+
+// data required:  
+		///   Interest rate:
+		///   Payments:
+
+									function FV_debt2(PMT, IR, NP) {
+ 									 var FV = PMT * (Math.pow(1 + IR, NP) - 1) / IR
+ 									 return FV  }
+
+									
+									var pmt_debt2 = (+add_to_debt1 || 0) +  parseInt(surplus1_if_neg)
+									var ir_debt2 = netmor
+									var investment_term = yearstoretirement
+									var final_value_debt2 = ((
+                  	FV_debt2(pmt_debt2, ir_debt2, 
+                  investment_term)) || 0 )
+
+/// value of existing balance
+///***** recall relevant name..>>>>>  currentdebtatretirement
+        
+   
+////  INTEGRATE DEBT OVERFLOW .....
+/*
+   //   D E B T   O V E R F L O W ---   //   D E B T   O V E R F L O W ---   //   D E B T   O V E R F L O W ---   //   D E B T   O V E R F L O W ---
+ var additionaldebtrepayments2 = Math.max(0, investment_value_d2)
+ var debtoverflow2 = (Math.max((investment_value_d2 - additionaldebtrepayments2 ),0) || 0 )
+ var debtoverflowcash2 = (0.2 * debtoverflow2) || 0
+ var debtoverflowinvestment2 = (0.8 * debtoverflow2) || 0
+                  
+                  */
+                  var final_value_debt2_grand_total = ( currentdebtatretirement - final_value_debt2)
+                  var final_value_debt2_used = Math.max(0, final_value_debt2_grand_total)
+                  
+                  var debtoverflow_2 = (final_value_debt2_used - final_value_debt2_grand_total)
+                  
+                  ////////////
+                  //   D E B T   O V E R F L O W --- A L L O C A T I O N ////  Do we direct to second-best option?
+              
+              ///  OPTIMISE SCENARIO --- FINDING BEST SCENARIO and ALLOCATING
+
+
+///  now we want to compare the net rates of return from each option
+////////////////////
+
+// INVESTMENT RETURN RATIO --- APPLY TO DEBT OVERFLOWS
+var cash_debt_ratio = netcashrate/netmor
+var invest_cash_ratio = (nonsuperinvestmentportfolioreturn/100)/netmor
+var super_cash_ratio = netrtn/netmor
+
+
+
+
+///////////////////// THIS IS thE SAME SET OF COMPARISONS, EXLUDING NETMOR (DEBT) /////
+
+var maxresultnumber2 = Math.max(netcashrate_test, netinvestrate_test, netnccrate_test )
+
+//   ADD ***OVERFLOW**** TO BEST OPTION
+////////////////////////////////////////
+
+//// now we have the max number, we need to find which option this applies to and direct the surplus to that option
+
+var overflow_to_cash22; if (maxresultnumber2 == netcashrate_test){overflow_to_cash22 = (debtoverflow_2 * (ratio_cash/ratio_debt)   )}
+var overflow_to_nonsuperinvest22; if (maxresultnumber2 == netinvestrate_test){overflow_to_nonsuperinvest22= (debtoverflow_2 * (ratio_invest/ratio_debt)  ) }
+var add_to_NCC22; if (maxresultnumber2 == netnccrate_test){add_to_NCC22 = (debtoverflow_2 * (ratio_ncc/ratio_debt)   )}
+
+//  NOW ALLOCATE THESE RESULTS TO THE RELEVANT TABLES ///$a
+
+     
+//the standard output for this would be var= final_value_debt2_used.... however we need to ensure neg overflows are allocated, therefore output will be carried to last with addition of Negs...
+
+      
+         ////  $cat ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////            
+/* VALUE OF CASH CONtRIBUTIONS - SCENARIO 2*/								
+//////////////    CASH TEST 1   //////////////////////////////////////////
+// data required:  
+		///   Interest rate:
+		///   Payments:
+
+									function FV_cash2(PMT, IR, NP) {
+ 									 var FV = PMT * (Math.pow(1 + IR, NP) - 1) / IR
+ 									 return FV  }
+						
+									var pmt_cash2 = add_to_cash2
+									var ir_cash2 = netcashrate
+									var investment_term = yearstoretirement
+									var final_value_cash2 = ((
+                  	FV_cash2(pmt_cash2, ir_cash2, 
+                  investment_term)) || 0 )
+
+/// value of existing balance
+///***** recall relevant name..>>>>>  cashatretirement1
+        
+//test the output.....
+
+
+
+
+//// %%%%%%%% %%%%% %%%%%% ////////// %%%%%%%% %%%%% %%%%%% /////// %%%%%%%% %%%%% %%%%%% ///
+
+
+var cashatretirement2 = Math.max(0,(final_value_cash2 + cashatretirement1   +   (overflow_to_cash22  || 0 ) ))
+//// $roger /// this carve-out will ensure that if our cash is negative it will be transformed into debt ////  REMEMBER TO ALLOCATE ALL NEGs TO DEBT ///
+var cash_neg2 = ((final_value_cash2 + cashatretirement1   +   (overflow_to_cash22  || 0 ) ) - cashatretirement2) * (ratio_debt / ratio_cash)
+
+//// $roger poorcash ### ...///   .//////  ///////// /////// ///////// %%%%%%%% %%%%% %%%%%% ////////// %%%%%%%% %%%%% %%%%%% /////// %%%%%%%% %%%%% %%%%//// %%%%%%%% %%%%% %%%%%% ////////// %%%%%%%% %%%%% %%%%%% /////// %%%%%%%% %%%%% %%%%
+
+
+document.getElementById("cashatretirement2").innerHTML =  formatter.format((cashatretirement2 ).toFixed(0))
+
+///////////////// ///////// %%%%%%%% %%%%% %%%%%% ////////// %%%%%%%% %%%%% %%%%%% /////// %%%%%%%% // %%%%%%%% %%%%% %%%%%% /////// %%%%%%%% %%%%% %%%%//// %%%%%%%% %%%%% %%%%%% ////////// %%%%%%%% %%%%% %%%%%% /////// %%%%%%%% %%%%% %%%%%%%%%%%% %%%%% %%%%%% /////// %%%%%%%% %%%%% %%%%%
+
+////////////////////////////////////////////////////////////////////
+
+/* VALUE OF NON SUPER INVESTMNET CONtRIBUTIONS - SCENARIO 2*/								
+//////////////    NON SUPER TEST 1   //////////////////////////////////////////
+//////////////////////////////////////////////////////
+// data required:  
+		///   Interest rate:
+		///   Payments:
+//$b
+									function FV_invest2(PMT, IR, NP) {
+ 									 var FV = PMT * (Math.pow(1 + IR, NP) - 1) / IR
+ 									 return FV  }
+
+									
+									var pmt_invest2 = add_to_nonsuperinvest1
+									var ir_invest2 = nonsuperinvestmentportfolioreturn/100
+									var investment_term = yearstoretirement
+									var final_value_invest2 = ((
+                  	FV_invest2(pmt_invest2, ir_invest2, 
+                  investment_term)) || 0 )
+
+/// value of existing balance
+///***** recall relevant name..>>>>>  currentnonsuperatretirement
+        
+//test the output.....
+var nonsuperatretirement2 =   Math.max(0,(final_value_invest2 + currentnonsuperatretirement +  (overflow_to_nonsuperinvest22 || 0 )    )  )
+
+
+
+//// $roger /// this carve-out will ensure that if our cash is negative it will be transformed into debt ////  REMEMBER TO ALLOCATE ALL NEGs TO DEBT ///
+var nonsuper_neg2 = (((final_value_invest2 + currentnonsuperatretirement +  (overflow_to_nonsuperinvest22 || 0 )    )) - nonsuperatretirement2) *     (ratio_debt / ratio_invest)
+
+//// $roger poorcash ### ...///   .//////  ///////// /////// ///////// %%%%%%%% %%%%% %%%%%% ////////// %%%%%%%% %%%%% %%%%%% /////// %%%%%%%% %%%%% %%%%//// %%%%%%%% %%%%% %%%%%% ////////// %%%%%%%% %%%%% %%%%%% /////// %%%%%%%% %%%%% %%%%
+//// %%%%%%%% %%%%% %%%%%% ////////// %%%%%%%% %%%%% %%%%%% /////// %%%%%%%% %%%%% %%%%//////////////////////////////////////////////////////////
+
+///// %%%%%%%% %%%%% %%%%//// %%%%%%%% %%%%% %%%%%% ////////// %%%%%%%% %%%%% %%%%%% /////// %%%%%%%% %%%%% %%%/////// ///////// %%%%%%%% %%%%% %%%%%% ////////// %%%%%%%% %%%%% %%%%%% /////// %%%%%%%% %%%%% %%%%//// %%%%%%%% %%%%% %%%%%% ////////// /////// ///////// %%%%%%%% %%%%% %%%%%% ////////
+
+
+document.getElementById("nonsuperatretirement2").innerHTML =  formatter.format(( nonsuperatretirement2 ).toFixed(0))
+
+//////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// $c
+
+//   STILL NEED TO ADD SUPER ///
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/* VALUE OF NON SUPER INVESTMNET CONtRIBUTIONS - SCENARIO 2*/								
+//////////////    NON SUPER TEST 1   //////////////////////////////////////////
+//////////////////////////////////////////////////////
+// data required:  
+		///   Interest rate:
+		///   Payments:  add_to_NCC1
+
+									function FV_super2(PMT, IR, NP) {
+ 									 var FV = PMT * (Math.pow(1 + IR, NP) - 1) / IR
+ 									 return FV  }
+
+									
+									var pmt_super2 = 
+                  ( parseInt(add_to_NCC1 || 0 ) + parseInt(netsgcpaid1 || 0) + parseInt(xtra || 0) )
+                  
+                  
+									var ir_super2 = (netrtn)
+									var investment_term = yearstoretirement
+									var final_value_super2 = ((
+                  	FV_super2(pmt_super2, ir_super2, 
+                  investment_term)) || 0 )
+
+/// value of existing balance
+///***** recall relevant name..>>>>>  currentsuperatretirement = 
+var superatretirement2 =  Math.max(0,(  final_value_super2 + currentsuperatretirement  + (add_to_NCC22 || 0)    ))
+
+
+document.getElementById("superatretirement2").innerHTML =  formatter.format((  superatretirement2).toFixed(0))
+
+///////////////////////////////////////////////////////////////
+//////////////
+      ////  REMEMBER TO ALLOCATE ALL NEGs TO DEBT ///
+        var super_neg2 = ((((  final_value_super2 + currentsuperatretirement  + (add_to_NCC22 || 0)    ) )) - superatretirement2) *     (ratio_debt / ratio_ncc)
+
+        //// $roger poorcash ### ...///   .//////  ///////// /////// ///////// %%%%%%%% %%%%% %%%%%% ////////// %%%%%%%% %%%%% %%%%%% ///
+//$roger $shill
+//// FINAL DEBT RESULT - SCENARIO #2 -- REQUIRE SEQUENCING TO WORK ////
+var debtatretirement2_print = final_value_debt2_used - cash_neg2 -  nonsuper_neg2 - super_neg2 
+document.getElementById("debtatretirement2").innerHTML =  formatter.format((debtatretirement2_print).toFixed(0)) 
+
+/////// ///////// %%%%%%%% %%%%% %%%%%% ////////// %%%%%%%% %%%%% %%%%%% //
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//// N E T    A S S E T S ---- - scenario 2 // 
+
+////  *** STILL NEED TO ADD SUPER !!!!!!!!!!*****
+										
+ var netassetsatretirement2 =       (
+   parseInt(cashatretirement2) +
+   parseInt(nonsuperatretirement2) +
+   parseInt(superatretirement2) -
+  parseInt( debtatretirement2_print) ).toFixed(0)
+              
+                    
+                    document.getElementById("netassetsatretirement2").innerHTML =  formatter.format(netassetsatretirement2)
+                      
+                      
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//  O U T P U T  C O M P A R I S O N ---- CURRENT VS OPTIMISED #1  ///$e
+					document.getElementById("benefitofstrategy2").innerHTML = formatter.format(netassetsatretirement2 - netassetsatretirement1) + " (" + Math.abs((((netassetsatretirement2/netassetsatretirement1)-1)*100).toFixed(2))   + "%)"
+
+//$e
+//////////////////////////////////////////////////////////
+///////   INCOME IN RETIREMENT
+//////////////////////////////////////////////////////////
+
+				/// RETIREVOL
+				//netcashrate // use gross:  var = cashrate
+      // ** volatilty portfolio based on Sharpe; use cash as RFR.
+      // Retirement volatility var = retirevol
+
+						var sharpe = document.getElementById("sharpe").value;
+						var retirevol = document.getElementById("retirevol").value;
+            
+            ////  VAR FEES IN RETIREMENT &&&&&&&&&&&&&&& /////
+            ////////////////////////////// 
+            //// retrieve inputs from sheet - getById 
+            var fees_retire = document.getElementById("fees_retire").value;
+            
+            
+// objective rtn gross
+						var retire_rtn_rate = ((
+            parseFloat(sharpe) * parseFloat(retirevol)) + parseFloat(cashrate) - inflation - parseFloat(fees_retire))/100
+
+
+/////////////////////////////////////////////////////////////////////////
+
+
+
+
+/// the number of years will be based on life expectancy at retirement; therefore we will want to call RETIREMENT LIFE EXPECTANCY from our life table array.  Out retirement age variable is called:  retireage  
+/// The variable we have assigned to life expectancy at from our target retirement date is: life_expectancy_at_retirement   /////////
+
+///////// CURRENT SCENARIO: 
+
+var principal = netassetsatretirement1
+    				var interest = retire_rtn_rate
+    				var life_expectancy = life_expectancy_at_retirement
+   //////
+    				var x = Math.pow(1 + interest, life_expectancy);
+    				var retirementincome1 = (principal*x*interest)/(x-1);
+
+document.getElementById("income_in_retirement1").innerHTML =  formatter.format(retirementincome1.toFixed(0)) 
+/////////////////////////////////////////////////////////////////// OPTIMISED SCENARIO #1: 
+
+var principal2 = netassetsatretirement2
+    				var interest = retire_rtn_rate
+    				var life_expectancy = life_expectancy_at_retirement
+   //////
+    				var x = Math.pow(1 + interest, life_expectancy);
+    				var retirementincome2 = (principal2*x*interest)/(x-1);
+
+document.getElementById("income_in_retirement2").innerHTML =  formatter.format(retirementincome2.toFixed(0)) 
+/////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+///    N E X T   S t E P S
+//////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////
+//////
+
+
+
+// AGE PENSION
+
+// first let's work out the MAX age pension....
+// Set assumptions:  Single, homeowner --->>
+// Max pension is: $23,828
+// asset threshold is: $258,500
+// number of years to model is lesser of L/Exp and (L/Exp + retirement age - 67) .... this will mean the maximum number of years with pension will take into account qualifying age.  
+/// the max pension will be worked out as PM....
+//  therefore, work out cumulative value of pension .... Calc (PV) = pmt (max pension), nper = min(lexp-67, lexp-retire), rate=0%, FV (0) .... then convert this into annual payments, with nper being (lexp - retirement age).  
+/// ideas ..... deduct from this: (excess assets x 7.8% ) - (assets/number of years)
+///
+
+////  SOME SETTINGS:  
+
+var pension_assets_test = 258500
+
+
+//////////////
+/// First, let's get the number of years to project pension rate (setting to max rate)...
+var years_pension_paid = Math.min(parseFloat(life_expectancy_at_retirement),
+(parseFloat(life_expectancy_at_retirement) + parseFloat(retireage) - 67))
+/// ok, works....
+/// Calculate cumulative value of pension ::
+// SIMPLIFY MAX; max pension x years_pension_paid /years_to_retirement 
+
+var max_pension = (916.30 * 26) * ( years_pension_paid / (parseInt(life_expectancy_at_retirement )))
+ /////// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+// CALCULATING CONCESSIONAL OPTIMISATION ///
+/*
+Approach: 
+
+########  STEP #1  ######
+                  If surplus is negative ---> direct to debt,
+                  Else;
+                  
+ ########  STEP #2  ######
+                      Max Test return [ CC, NCC, Invest, Cash, Debt]
+
+                    If Max = CC
+
+########  STEP #3  #############
+
+                   !!!!! CALCULATION OF CC !!!!!
+
+                   CC Test #1:  Minimum of: 
+                    (1) Surplus/(1+MTR+MC)
+                    (2) CC Limit - SGC
+                    (3) Gross Y - Effective Tax Free Threshold
+
+########  STEP #4  #############
+
+                    Use this as the CC and deduct from gross Y; then if there is a surplus/deficit (as there likely is), make an adjustment TO CC as follows:
+
+                    ADJUSTMENTS:
+                    if surplus2 < 0, -( Surplus2 / (1-Next_tax_threshold)/100)
+                    Else: adj: = 0 
+
+########  STEP #5  #############
+
+                    Then apply that adjustment to previous CC estimate and run remaining calculations.  Any residual surplus will then be allocated to the highest performing asset outside of CC (so the same highest scoring as seen in "optimised" scenario)
+
+*/
+
+
+/*/&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& 
+
+				I M P L E M E N T A T I O N ---- O P T I  3.0
+
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+*/
+/// PREP #1.0 --- WE WANT TO ESTIMATE SURPLUS UNDER CONDITION THAT NO ADDITIONAL SUPER (Concessiona) CONTRIbUTIONS ARE BEING MADE!
+//  Gross income is: 'grossY '.  Therefore, in calculations below we replace "x" with a new variable that reflects grossY, before deductions.  
+
+var x3 = grossY
+
+
+//////// TAX GROSS Y /////
+
+              var tx3;
+              if (x3 < 18201){tx3 = 0;} 
+              else if (x3 < 37001) { tx3 = ((x3 - 18201)*0.19);}
+              else if (x3 < 90001) { tx3 = ((x3 - 37000)*0.325)+3572;}
+              else if (x3 < 180001) { tx3 = (((x3 - 90000)*0.37)+20797);}
+              else { tx3 = ((((x3-180000))*0.45)+54097);}
+
+              var mtr3;
+              if (x3 < 18201){mtr3 = 0;} 
+              else if (x3 < 37001) { mtr3 = 0.19;}
+              else if (x3 < 87001) { mtr3 = 0.325;}
+              else if (x3 < 180001) { mtr3 = 0.39;}
+              else { mtr3 = 0.47;}
+
+              var medicarerate3;
+              if (x3 < 21980){medicarerate3 = 0.0;} 
+              else if (x3 > 27476) { medicarerate3 = 2.0;}
+              else { medicarerate3 = ((((x3-21980)*0.1)/x3)*100).toFixed(0);}
+
+              var medicaresurcharge3;
+              if (x3 < 90000){medicaresurcharge3 = 0;} 
+              else if (x3 < 104999) { medicaresurcharge3 = 1;}
+              else if (x3 > 139999) { medicaresurcharge3 = 1.25;}
+              else { medicaresurcharge3 = 1.5;}
+
+              var LITO3;
+              if (x3 > 66667) {LITO3 = 0;}
+              else if (x3 < 37000){LITO3 = Math.min(tx3,445);}
+              else {LITO3 = (445-((x3-37000)*0.015));}
+
+              var medicarepayable3 = (x3 * (medicarerate3/100))
+              var mlspayable3 = (x3 * (medicaresurcharge3/100))
+              var totalmarginal3 = medicaresurcharge3 + medicarerate3 + (mtr3*100)
+    
+              var avtax3 = (tx3/x3)*100
+              var totaltaxandmedicarepayable3 = Math.max(0,(tx3 + medicarepayable3 + mlspayable3 - LITO3))
+              var netincome3 = x3 - totaltaxandmedicarepayable3
+              var surplus3 = netincome3 - expenses
+
+//// CONCESSIONAL vs CASH RATIO
+// we will use this when working out the optimal (max) outcome from different investment options.  This will be the ratio of $1 pre-tax put into super vs $1 pre-tax used post tax.  Therefore, the ratio will be 0.85/(1-totalmarginal3/100)
+var concessional_ratio = (0.85)/(1-(totalmarginal3/100))
+
+/////////////////////////////////////////////
+///////////////////
+/////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////
+
+// STEP 1: 
+        // SAVINGS CAPACITY from CURRENT SCENARIO == "  surplus  "
+        // if negative, direct to debt
+        var surplus_is_negative = Math.min(0,surplus3)
+        var surplus32 = Math.max(0, surplus3)
+
+// STEP 2:
+				// if positive, look for highest-return option...
+
+                    ///  now we want to compare the net rates of return from each option... for this we will use the same tests as the Optimise#1 scenario, however to adjust for taxes we will create a second super scenario that adjusts outcome to reflect 15% tax rather than 'totalmarginal'for the post-tax contributions.
+
+                 /*   BECAUSE WE ARE APPLYING A TAX RATIO TO RESULTS, USE THE FINAL RESULT .... THEREFORE WE WILL USE THE RATIOS PREVIOUSLY CALCULATED (reminder of variables assigned below), AND ADD ONE ADDITIONAL THAT TAKES INTO ACCOUNT CONCESSIONAL SUPER RATIO
+var ratio_debt = Math.pow((1+netmor),yearstoretirement)
+var ratio_cash = Math.pow((1+netcashrate),yearstoretirement)
+var ratio_invest = Math.pow((1+(nonsuperinvestmentportfolioreturn/100)),yearstoretirement)
+var ratio_ncc = Math.pow((1+netrtn),yearstoretirement)
+
+*/
+var netmor3;
+if (debtbalance == 0){netmor3 = 0}
+else {netmor3 = netmor}
+
+
+
+var ratio_debt3 = Math.pow((1+netmor3),yearstoretirement)
+
+var ratio_concessional_super = ratio_ncc * concessional_ratio
+
+/////
+
+//  Now let's get the max result....
+
+		var maxresultnumber3 = Math.max( ratio_concessional_super, ratio_debt3, ratio_cash, ratio_invest, ratio_ncc)
+
+/////////
+// now to allocate the result.... what we really want to focus on, though, is if the max allocation is to concessional super contributions..
+/////////
+
+        var add_to_debt3; if (maxresultnumber3 == ratio_debt3){add_to_debt3 = surplus32}
+        var add_to_cash3; if (maxresultnumber3 == ratio_cash){add_to_cash3 = surplus32}
+        var add_to_nonsuperinvest3; if (maxresultnumber3 == ratio_invest){add_to_nonsuperinvest3 = surplus32}
+        var add_to_NCC3; if (maxresultnumber3 == ratio_ncc){add_to_NCC3 = surplus32}
+
+var add_to_CC3_net; if (maxresultnumber3 == ratio_concessional_super){add_to_CC3_net = surplus32}
+    
+    ///// we want to adjust the concessional contributions to reflect pre-tax contribution.  Therefore, we will make a new variable that grosses up the result from add_to_CC3...
+    
+    var add_to_CC3_grossed = ( add_to_CC3_net / (1-(totalmarginal3/100)) )
+    
+    // We want to ensure the max amount is the smallest from (a) amount above, (b) CC Limit less super, and (c) grossY less effective tax free threshold....
+    
+    //// CC LIMIT LESS SGC ///
+    var cc_limit_b = (25000 - sgcpaid)
+    var cc_limit_c = (grossY - 20542)
+    
+    
+    var add_to_CC3_grossed_with_limit = Math.max(0,(Math.min(add_to_CC3_grossed, cc_limit_b, cc_limit_c)))
+    
+ //////////////////////////////////////////////////////////////////////////////////////////////////////
+ 
+ //  NOW WE RUN THE TAX CALCULATION AGAIN TO SEE WHAT SURPLUS WE HAVE; IF NEGATIVE, WE WILL DEDUCT A RATIO OF THIS FROM OUR CC.....
+ 
+ var x4 = grossY - add_to_CC3_grossed_with_limit
+ 
+ /////////////////////////////////////////////////////////////////////////////////////////////   RUN TAX CALCULATIONS (we don't need to print each result; we just want to look at the surplus) /////
+ 
+ var tx4;
+              if (x4 < 18201){tx4 = 0;} 
+              else if (x4 < 37001) { tx4 = ((x4 - 18201)*0.19);}
+              else if (x4 < 90001) { tx4 = ((x4 - 37000)*0.325)+3572;}
+              else if (x4 < 180001) { tx4 = (((x4 - 90000)*0.37)+20797);}
+              else { tx4 = ((((x4-180000))*0.45)+54097);}
+
+              var mtr4;
+              if (x4 < 18201){mtr4 = 0;} 
+              else if (x4 < 37001) { mtr4 = 0.19;}
+              else if (x4 < 87001) { mtr4 = 0.325;}
+              else if (x4 < 180001) { mtr4 = 0.39;}
+              else { mtr4 = 0.47;}
+
+              var medicarerate4;
+              if (x4 < 21980){medicarerate4 = 0.0;} 
+              else if (x4 > 27476) { medicarerate4 = 2.0;}
+              else { medicarerate4 = ((((x4-21980)*0.1)/x4)*100).toFixed(0);}
+
+              var medicaresurcharge4;
+              if (x4 < 90000){medicaresurcharge4 = 0;} 
+              else if (x4 < 104999) { medicaresurcharge4 = 1;}
+              else if (x4 > 139999) { medicaresurcharge4 = 1.25;}
+              else { medicaresurcharge4 = 1.5;}
+
+              var LITO4;
+              if (x4 > 66667) {LITO4 = 0;}
+              else if (x4 < 37000){LITO4 = Math.min(tx4,445);}
+              else {LITO4 = (445-((x4-37000)*0.015));}
+
+              var medicarepayable4 = (x4 * (medicarerate4/100))
+              var mlspayable4 = (x4 * (medicaresurcharge4/100))
+              var totalmarginal4 = medicaresurcharge4 + medicarerate4 + (mtr4*100)
+    
+              var avtax4 = (tx4/x4)*100
+              var totaltaxandmedicarepayable4 = Math.max(0,(tx4 + medicarepayable4 + mlspayable4 - LITO4))
+              var netincome4 = x4 - totaltaxandmedicarepayable4
+              
+              var surplus4_positive = Math.max(netincome4 - expenses)
+              var surplus4_negative = Math.min( netincome4 - expenses )
+              
+              var surplus4 = parseFloat(surplus4_positive)
+
+ ////////
+ ///  Is surplus negative?  If it is, we will need to gross it up and make an adjsutment to concessional contributions....
+ ////////////////////
+ 
+ var cc_adjustment_5; 
+ 			if (surplus4 > 0){cc_adjustment_5 = 0}
+      else {cc_adjustment_5 = (surplus4 / (1-(totalmarginal4/100)))}
+ 
+ ////// 
+ // Now we have out adjustment factor, re-run the analysis.  From the result of this we should expect to have a positive surplus (of some number) which we will then apply to our next optimisation...  To start, let's assign our new concessional contribution level ***THIS WILL BE OUT OPTIMISED CONCESSIONAL CONTRIBUTION SCENARIO #3 *****.....
+ 
+ var cc_fully_optimised_3 = (Math.max(0,(add_to_CC3_grossed_with_limit + cc_adjustment_5) ) || 0 )
+ 
+ ////  THis works &&&&& ANCHOR&& 200319 &&&&&&& /////////
+ /// NOW to RE RUN TAX & MEDICARE....
+ 
+ 
+ document.getElementById("grossY3").innerHTML = formatter.format(grossY)
+ document.getElementById("cc3").innerHTML = formatter.format(cc_fully_optimised_3.toFixed(0))
+ 
+ //// Assessable taxable income:
+ 
+ var x5 = grossY - ( cc_fully_optimised_3 || 0 )
+ 
+ ////// //////////////////////////
+
+ var tx5;
+              if (x5 < 18201){tx5 = 0;} 
+              else if (x5 < 37001) { tx5 = ((x5 - 18201)*0.19);}
+              else if (x5 < 90001) { tx5 = ((x5 - 37000)*0.325)+3572;}
+              else if (x5 < 180001) { tx5 = (((x5 - 90000)*0.37)+20797);}
+              else { tx5 = ((((x5-180000))*0.45)+54097);}
+
+              var mtr5;
+              if (x5 < 18201){mtr5 = 0;} 
+              else if (x5 < 37001) { mtr5 = 0.19;}
+              else if (x5 < 87001) { mtr5 = 0.325;}
+              else if (x5 < 180001) { mtr5 = 0.39;}
+              else { mtr5 = 0.47;}
+
+              var medicarerate5;
+              if (x5 < 21980){medicarerate5 = 0.0;} 
+              else if (x5 > 27476) { medicarerate5 = 2.0;}
+              else { medicarerate5 = ((((x5-21980)*0.1)/x5)*100).toFixed(0);}
+
+              var medicaresurcharge5;
+              if (x5 < 90000){medicaresurcharge5 = 0;} 
+              else if (x5 < 104999) { medicaresurcharge5 = 1;}
+              else if (x5 > 139999) { medicaresurcharge5 = 1.25;}
+              else { medicaresurcharge5 = 1.5;}
+
+              var LITO5;
+              if (x5 > 66667) {LITO5 = 0;}
+              else if (x5 < 37000){LITO5 = Math.min(tx5,445);}
+              else {LITO5 = (445-((x5-37000)*0.015));}
+//////
+              var medicarepayable5 = ((x5 * (medicarerate5/100)) || 0 )
+              var mlspayable5 = ((x5 * (medicaresurcharge5/100)) || 0 )
+              var totalmarginal5 = ((medicaresurcharge5 + medicarerate5 + (mtr5*100)) || 0 )
+    
+              var avtax5 = (tx5/x5)*100
+              var totaltaxandmedicarepayable5 = Math.max(0,(tx5 + medicarepayable5 + mlspayable5 - LITO5))
+              var netincome5 = x5 - totaltaxandmedicarepayable5
+              var surplus_opti5 = netincome5 - expenses
+                       
+ //// PRINT OUTPUT // FULLY OPTIMISED /////             
+      
+         document.getElementById("ati4").innerHTML = formatter.format( x5.toFixed(0))
+         document.getElementById("taxprint3").innerHTML = formatter.format(tx5.toFixed(0))
+         document.getElementById("medicareprint3").innerHTML = formatter.format(medicarepayable5.toFixed(0))
+         document.getElementById("mlsprint3").innerHTML = formatter.format(mlspayable5.toFixed(0))
+         document.getElementById("litoprint3").innerHTML = formatter.format(LITO5.toFixed(0))
+       document.getElementById("totalprint3").innerHTML =   formatter.format(  (tx5 + medicarepayable5 + mlspayable5 - LITO5).toFixed(0)    )
+       document.getElementById("exp3").innerHTML =  formatter.format(expenses)
+       document.getElementById("surplus3").innerHTML =    formatter.format( surplus_opti5.toFixed(0)   )
+ 
+//////////////////////////////////////////////////////////////////////////////////////////
+//  U S E   O F  S U R P L U S --- F U L L Y O P T I M I S E D ***** ....//////
+///////////////////////////////////////////////// DEAD SPENDING ::
+document.getElementById("justzeros2").value = formatter.format(0)
+/// NOW SELECT BEST PERFORMER:
+
+
+
+          var maxresultnumber5 = Math.max(  ratio_debt3, ratio_cash, ratio_invest, ratio_ncc)
+
+          /////////
+          // now to allocate the result...
+          
+          
+          
+          ////// Redirect negative result to debt...
+          var surplus_opti52 = Math.max(0,surplus_opti5)
+          var surplus_opti52_neg = Math.min(0,surplus_opti5)
+
+                  var add_to_debt5; if (maxresultnumber5 == ratio_debt3){add_to_debt5 = surplus_opti52} else {add_to_debt5 = 0}
+                  var add_to_cash5; if (maxresultnumber5 == ratio_cash){add_to_cash5 = surplus_opti52} else {add_to_cash5 = 0}
+                  var add_to_nonsuperinvest5; if (maxresultnumber5 == ratio_invest){add_to_nonsuperinvest5 =  surplus_opti52 } else {add_to_nonsuperinvest5 = 0}
+                  var add_to_NCC5; if (maxresultnumber5 == ratio_ncc){add_to_NCC5 = surplus_opti52} else {add_to_NCC5 = 0}
+//////
+var add_to_debt52 = parseInt(surplus_opti52_neg) + parseInt(add_to_debt5)
+
+//////  PRINT USE OF SURPLUS -- FULLY OPTIMISED /////
+
+document.getElementById("cashsavings3").innerHTML = formatter.format(add_to_cash5.toFixed(0))
+
+document.getElementById("investsavings3").innerHTML = formatter.format(add_to_nonsuperinvest5.toFixed(0))
+document.getElementById("debtrepayment3").innerHTML = formatter.format(add_to_debt52.toFixed(0))
+
+document.getElementById("nccsavings3").innerHTML = formatter.format(add_to_NCC5.toFixed(0))
+
+/// RESIDUAL ## 3 ## ////
+
+document.getElementById("residual3").innerHTML = formatter.format(0)
+
+/////////////////////////////////////////////////////
+///////////////////////////////////////////
+/////////////////////////////////////////////
+
+/* VALUE OF DEBT CONtRIBUTIONS - SCENARIO 3*/								
+//////////////    DEBT TEST 1   //////////////////////////////////////////
+//////////////////////////////////////////////////////
+// data required:  
+		///   Interest rate:
+		///   Payments:
+
+									function FV_debt3(PMT, IR, NP) {
+ 									 var FV = PMT * (Math.pow(1 + IR, NP) - 1) / IR
+ 									 return FV  }
+
+									
+									var pmt_debt3 = add_to_debt52
+									var ir_debt3 = netmor
+									var investment_term = yearstoretirement
+									var final_value_debt3 = ((
+                  	FV_debt3(pmt_debt3, ir_debt3, 
+                  investment_term)) || 0 )
+
+/// value of existing balance
+///***** recall relevant name..>>>>>  currentdebtatretirement
+        
+   
+////  INTEGRATE DEBT OVERFLOW .....
+/*
+   //   D E B T   O V E R F L O W ---   //   D E B T   O V E R F L O W ---   //   D E B T   O V E R F L O W ---   //   D E B T   O V E R F L O W ---
+ var additionaldebtrepayments2 = Math.max(0, investment_value_d2)
+ var debtoverflow2 = (Math.max((investment_value_d2 - additionaldebtrepayments2 ),0) || 0 )
+ var debtoverflowcash2 = (0.2 * debtoverflow2) || 0
+ var debtoverflowinvestment2 = (0.8 * debtoverflow2) || 0
+ 
+ // 
+                  
+                  */
+                  var final_value_debt3_grand_total = ( currentdebtatretirement - final_value_debt3)
+                  var final_value_debt3_used = Math.max(0, final_value_debt3_grand_total)
+                  
+                  var debtoverflow_3 = (final_value_debt3_used - final_value_debt3_grand_total)
+                  
+                  
+                  
+                 //   ADD ***OVERFLOW**** TO BEST OPTION
+////////////////////////////////////////
+
+//// now we have the max number, we need to find which option this applies to and direct the surplus to that option
+
+var overflow_to_cash33; if (maxresultnumber2 == netcashrate_test){overflow_to_cash33 = (debtoverflow_3 * (ratio_cash/ratio_debt)   )}
+var overflow_to_nonsuperinvest33; if (maxresultnumber2 == netinvestrate_test){overflow_to_nonsuperinvest33= (debtoverflow_3 * (ratio_invest/ratio_debt)  ) }
+var add_to_NCC33; if (maxresultnumber2 == netnccrate_test){add_to_NCC33 = (debtoverflow_3 * (ratio_ncc/ratio_debt)   )}
+
+//  NOW ALLOCATE THESE RESULTS TO THE RELEVANT TABLES ///$a
+
+     
+//test the output.....
+document.getElementById("debtatretirement3").innerHTML =  formatter.format(final_value_debt3_used.toFixed(0))  
+                  
+                 //$A 
+                  
+                  
+                  
+                  
+ /* VALUE OF CASH CONtRIBUTIONS - SCENARIO 3*/								
+//////////////    CASH TEST 1   //////////////////////////////////////////
+// data required:  
+		///   Interest rate:
+		///   Payments:
+
+									function FV_cash3(PMT, IR, NP) {
+ 									 var FV = PMT * (Math.pow(1 + IR, NP) - 1) / IR
+ 									 return FV  }
+						
+									var pmt_cash3 = add_to_cash5
+									var ir_cash3 = netcashrate
+									var investment_term = yearstoretirement
+									var final_value_cash3 = ((
+                  	FV_cash3(pmt_cash3, ir_cash3, 
+                  investment_term)) || 0 )
+
+/// cash FULLY OPTIMISED ( x 3xxx) .///
+        
+//test the output.....
+var cashatretirement3 = ( final_value_cash3 + cashatretirement1   +   (overflow_to_cash33  || 0 )  )
+
+
+document.getElementById("cashatretirement3").innerHTML =  formatter.format((final_value_cash3 + cashatretirement1   +   (overflow_to_cash33  || 0 ) ).toFixed(0))
+     
+        /* VALUE OF NON SUPER INVESTMNET CONtRIBUTIONS - SCENARIO 3xx*/								
+//////////////    NON SUPER TEST 3xx //////////////////////////////////////////
+//////////////////////////////////////////////////////
+// data required:  
+		///   Interest rate:
+		///   Payments:
+//$b
+									function FV_invest3(PMT, IR, NP) {
+ 									 var FV = PMT * (Math.pow(1 + IR, NP) - 1) / IR
+ 									 return FV  }
+
+									
+									var pmt_invest3 = add_to_nonsuperinvest5
+									var ir_invest3 = nonsuperinvestmentportfolioreturn/100
+									var investment_term = yearstoretirement
+									var final_value_invest3 = ((
+                  	FV_invest3(pmt_invest3, ir_invest3, 
+                  investment_term)) || 0 )
+
+/// value of existing balance
+///***** recall relevant name..>>>>>  currentnonsuperatretirement
+        
+//test the output.....
+var nonsuperatretirement3 = (    final_value_invest3 + currentnonsuperatretirement +  (overflow_to_nonsuperinvest33 || 0 )  )
+
+
+document.getElementById("nonsuperatretirement3").innerHTML =  formatter.format((  final_value_invest3 + currentnonsuperatretirement +  (overflow_to_nonsuperinvest33 || 0 )      ).toFixed(0))
+
+        //// SUPER SECTION // PULL DATA ///
+  
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/* VALUE OF NON SUPER INVESTMNET CONtRIBUTIONS - SCENARIO 3*/								
+//////////////    NON SUPER TEST 3 - optimiser   //////////////////////////////////////////
+//////////////////////////////////////////////////////
+// data required:  
+		///   Interest rate:
+		///   Payments:  add_to_NCC1
+
+									function FV_super3(PMT, IR, NP) {
+ 									 var FV = PMT * (Math.pow(1 + IR, NP) - 1) / IR
+ 									 return FV  }
+
+									
+									var pmt_super3 = 
+                  ( parseInt(add_to_NCC5 || 0 ) + parseInt(netsgcpaid1 || 0)  + cc_fully_optimised_3  )
+                  
+                  
+									var ir_super3 = netrtn
+									var investment_term = yearstoretirement
+									var final_value_super3 = ((
+                  	FV_super3(pmt_super3, ir_super3, 
+                  investment_term)) || 0 )
+
+/// value of existing balance
+///***** recall relevant name..>>>>>  currentsuperatretirement = 
+        
+var superatretirement3 = (  final_value_super3 + currentsuperatretirement  + (add_to_NCC33 || 0) ).toFixed(0)
+
+document.getElementById("superatretirement3").innerHTML =  formatter.format(superatretirement3)
+
+///////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////    $d
+
+//// N E T    A S S E T S ---- - scenario 3xx jfulloptimaise // 
+
+//
+										
+ var netassetsatretirement3 =       ( ( (final_value_cash3 + cashatretirement1)  
+                    -  ( currentdebtatretirement - final_value_debt3)
+                      + (  final_value_invest3 + currentnonsuperatretirement)
+                      + (  final_value_super3 + currentsuperatretirement  )
+                      ).toFixed(0))
+              
+////
+document.getElementById("netassetsatretirement3").innerHTML =  formatter.format(netassetsatretirement3)                  
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // BENEFIT OF STRATEGY * x3xx
+        /////////$e
+        
+        	document.getElementById("benefitofstrategy3").innerHTML = formatter.format(netassetsatretirement3 - netassetsatretirement1) + " (" + Math.abs((((netassetsatretirement3/netassetsatretirement1)-1)*100).toFixed(2))   + "%)"
+        
+        //$f
+        //////////////////////////////////////////////////////////$$$$$ &&&&& DD  &f  $f  /////
+        
+     // OPTIMISED SCENARIO #3 xxx: 
+
+var principal3 = netassetsatretirement3
+    				var interest = retire_rtn_rate
+    				var life_expectancy = life_expectancy_at_retirement
+   //////
+    				var x = Math.pow(1 + interest, life_expectancy);
+    				var retirementincome3 = (principal3*x*interest)/(x-1);
+
+document.getElementById("income_in_retirement3").innerHTML =  formatter.format(retirementincome3.toFixed(0)) 
+///////////////////////////////////////////// $gg
+   
+       ////// $chart anchor -- data for stacked chart with spline of NAV ///
+ 
+       
+     
+    var chart3 = new CanvasJS.Chart("chart3",
+    {
+    
+      toolTip:{
+		shared: true
+	},
+  animationEnabled: true,
+  animationDuration: 1000,
+  backgroundColor: "lemonChiffon",
+   
+    
+    /// $rogerAnchor
+    
+    //  title:{ text: "Summary of Results "  },  
+        
+      data: [
+      
+        {        
+        type: "spline",
+        name: "Net Assets at Retirement",
+        lineDashType: "dot",
+        lineThickness: 3,
+        markerSize: 14,
+        markerColor: "black",
+        
+        
+        dataPoints: [
+        { label: "Current", x:1, y: parseInt(netassetsatretirement1) },
+        { label: "Cashflow Optimised",   x: 2, y: parseInt(netassetsatretirement2)},
+        {label: "Fully Optimised", x: 3, y: parseInt(netassetsatretirement3)},
+        ]
+      },
+      
+      
+     
+      
+    //////
+       
+       {        
+        type: "stackedColumn",
+        name: "Superannuation",
+        fillOpacity: .85,
+        color: "powderblue",
+        
+        
+        dataPoints: [
+        {label: "Current", x: 1, y: parseInt(superatretirement1) },
+        {label: "Cashflow Optimised", x: 2, y: parseInt(superatretirement2)},
+      { label: "Fully Optimised",   x: 3, y: parseInt(superatretirement3) },
+        ]
+      },
+      
+      //////
+             {        
+        type: "stackedColumn",
+        name: "Cash",
+        color: "yellow",
+        fillOpacity: .9,
+        dataPoints: [
+        {label: "Current", x: 1, y: parseInt(cashatretirement1_current) },
+        {label: "Cashflow Optimised", x: 2, y: parseInt(cashatretirement2)},
+      { label: "Fully Optimised",   x: 3, y: parseInt(cashatretirement3) },
+        ]
+      },
+      
+            //////
+             {        
+        type: "stackedColumn",
+        name: "Non-Super Investment Portfolio",
+           color: "lime",
+        fillOpacity: .85,
+        dataPoints: [
+        {label: "Current", x: 1, y: parseInt(nonsuperatretirement1) },
+        {label: "Cashflow Optimised", x: 2, y: parseInt(nonsuperatretirement2)},
+      { label: "Fully Optimised",   x: 3, y: parseInt(nonsuperatretirement3) },
+        ]
+      },
+      
+     ////// 
+        {        
+        type: "stackedColumn",
+        name: "Debt",
+           color: "red",
+        fillOpacity: .8,
+        dataPoints: [
+        { label: "Current",  x: 1, y: parseInt(-(final_value_debt1_used)) },
+      { label: "Cashflow Optimised", x: 2, y: parseInt(-(final_value_debt2_used)) },
+        {label: "Fully Optimised", x: 3, y: parseInt(-(  final_value_debt3_used )) },
+        ]
+      },
+       
+       
+       
+       ////
+       
+       
+      ]
+    });
+
+    chart3.render();
+ 
+  
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       ////////// $chart anchor end - stacked chart ////
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+
+///// &&&&&& ////      W O R K    F R O M   H E R E       ///  &&&&&&
+
+
+
+
+
+
+
+
+
+
+
+
+
+/////////////////////////////////////////////////// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& //////////////////////////////////// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& /////////////////////////////// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& ////////////////// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& ///////////////////////////////////// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& ////////////////////////////////////////////////// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& //////////////////////////////////// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& /////////////////////////////// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& /////////////////////// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& /////////////////////////////// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& /////////
+
+
+//   ## IF OUR SURPLUS IS NEGATIVE, IT IS FUNDED BY CASH ///
+
+
+
+
+ 
+
+
+/////////////////////
+
+
+/*
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&*/
+
+
+
+
+
+
+
+
+////////////////////////////////////////
+//////  P E N S I O N   R E D U C T I O N  /////////
+////////////////////////////////////////////
+//// REDUCTION is 1.5% of EXCESS, up to $800k above excess, then 0.6%.  Ensure min = 0.
+
+/////////////////////////////////////////////////////////////////////////////////
+///// Current scenario:
+
+var pension_reduction1a = Math.min(12000,((netassetsatretirement1 - pension_assets_test) * (1.5/100)))
+
+var pension_reduction1b = Math.max(0,(Math.min((max_pension - 12000),(netassetsatretirement1 - 800000) * (0.6/100))))
+
+// $shine
+var est_agepension1 = (max_pension - pension_reduction1a - pension_reduction1b) * ( years_pension_paid / (parseInt(life_expectancy_at_retirement )))
+
+///////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////
+///// Cash flow optimised:
+
+var pension_reduction2a = Math.min(12000,((netassetsatretirement2 - pension_assets_test) * (1.5/100)))
+
+var pension_reduction2b = Math.max(0,(Math.min((max_pension - 12000),(netassetsatretirement2 - 800000) * (0.6/100))))
+
+// $shine
+var est_agepension2 = (max_pension - pension_reduction2a - pension_reduction2b) * ( years_pension_paid / (parseInt(life_expectancy_at_retirement )))
+
+///////////////////////////////////////////////////////////////////////
+/////////////////////////////
+///// fully optimised:
+
+var pension_reduction3a = Math.min(12000,((netassetsatretirement3 - pension_assets_test) * (1.5/100)))
+
+var pension_reduction3b = Math.max(0,(Math.min((max_pension - 12000),(netassetsatretirement3 - 800000) * (0.6/100))))
+
+// $shine
+var est_agepension3 = (max_pension - pension_reduction3a - pension_reduction3b) * ( years_pension_paid / (parseInt(life_expectancy_at_retirement )))
+
+///////////////////////////////////////////////////////////////////////
+
+
+
+
+
+/// && BUG TESt    BUGTEST  //// &&&&&&&&&&&&&&&&&&&&&&&&&&&& ///////////
+////// IDEA FOR ESTIMATING: 
+// Work out number of years at maximum entitlement; this will be equivalent to the LESSER OF:
+//     (a)  THRESHOLD divided by EXPENSES LESS MAX AGE PENSION, 
+//     (b)  Years life expectancy from retirement (life_expectancy_retirement)
+//      (c)  Number of years from age 67 to retirement (so, retireage + life_expectancy_retirement - 67)
+
+/////  WE CAN CALL THIS NUMBER "Years at Max"
+
+//  Next step, we will consider the period of time with assets reducing.... we can estimate this by breaking this into periods.  First, get the period of time where we are of Age Pension age, but not entitled to the max (so, part C above, less result from yearsatmax above).
+//  If we wanted to take 5 sample periods, this would simply be the maximum of (0, result), where result is (assets_over_threshold x 1/5 (or 2/5. 3/5...so forth) multiplied by 7.8% (to get the reduciton at each point), deduct this from max pension (thus giving us actual pension payable) and multiplying this by 1/5 (for each period).... subject to the max being 0 || result ....  *** NOTE THIS WILL STILL NOT BE ACCURATE: rate of asset reduction will change... it is not linear....
+
+
+
+
+
+
+
+
+//// PRINT & SAVE &&&&& WIP
+document.getElementById("pension_est1").innerHTML = formatter.format(est_agepension1.toFixed(0))
+document.getElementById("pension_est2").innerHTML = formatter.format(est_agepension2.toFixed(0))
+document.getElementById("pension_est3").innerHTML = formatter.format(est_agepension3.toFixed(0))
+///////////////
+/////////// &&&&&&&&&&&&7 ////////
+//// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& //////
+////// TOTAL RETIREMENT INCOME /////
+
+document.getElementById("totalretirementincome1").innerHTML = formatter.format((est_agepension1 + retirementincome1).toFixed(0))
+/////
+document.getElementById("totalretirementincome2").innerHTML = formatter.format((est_agepension2 + retirementincome2).toFixed(0))
+////
+document.getElementById("totalretirementincome3").innerHTML = formatter.format((est_agepension3 + retirementincome3).toFixed(0))
+
+/// $shrave
+
+
+
+
+   ///    retireY1
+
+document.getElementById("retireY1").innerHTML =
+" This is approximately " +  (((     ( est_agepension1 + retirementincome1   )/expenses))*100).toFixed(1)   + "% your current spending rate"
+/////
+document.getElementById("retireY2").innerHTML =
+" This is approximately " +  (((     ( est_agepension2 + retirementincome2   )/expenses))*100).toFixed(1)   + "% your current spending rate"
+////
+document.getElementById("retireY3").innerHTML =
+" This is approximately " +  (((     ( est_agepension3 + retirementincome3   )/expenses))*100).toFixed(1)   + "% your current spending rate"
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+}
+
+</script>
+
+</html>
