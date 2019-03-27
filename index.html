@@ -168,21 +168,23 @@ output:hover { color: yellow}
  <div class= "columnA">
  
  
+ <p>
  
   <fieldset  style=" background-color:red  ;"  >
 
 <label   style="color:white ;"     for ="disclaimer" > <strong>  Password:</strong> </label>
- <input type="text" id="password" name="password" value="pass1" oninput=calculate()>
+ <input type="text" id="password" name="password" value="pass1" oninput=calculate() size="9" maxlength="9"   >
  </fieldset>
  
  
- 
+
+</p>
  
  
  <fieldset  style=" background-color:OrangeRed  ;"  >
 
  <label   style="color:white ;"     for ="disclaimer" >   I understand this calculator is for general informational purposes only, and is not to be interpreted as, or relied upon as personal advice  <i>   (type "YES" to proceed) </i>  </label>
- <input type="text" id="disclaimer" name="disclaimer" placeholder="YES or NO" oninput=calculate()>
+ <input type="text" id="disclaimer" name="disclaimer" placeholder="YES or NO" oninput=calculate()  size="6" maxlength="4"   >
  </fieldset>
           
  
@@ -192,12 +194,12 @@ output:hover { color: yellow}
        </legend>
       <label for="income"  >Gross Income ($): </label>
        <input type="text"id="income" name="grossincome"  
-       value="87214" oninput= calculate()    >
+       placeholder="Income ex super" oninput= calculate()   size="10" maxlength="10"    >
  
  
        <label for="extrasuper"  ><i>Additional Super Cont's ($): </i></label>
        <input type="text"id="extrasuper" name="extrasuper"
-       placeholder="Extra Concessional" oninput= calculate()    >
+       placeholder="Extra Concessional" oninput= calculate()   size="10" maxlength="10"    >
  
  </fieldset>
 
@@ -217,35 +219,7 @@ output:hover { color: yellow}
             </div>
      
        <!---start experimental table --->     
-         
-         
-   
-            
-<!--- next we will have some text with detail on the components of tax, medicare etc... 
-
-Way to do this...
-
-**Current will be as per inputs
-**Optimised....
-   We will need to compare concessional contributions (CC) against NCC, investment portfolio, and debt repayments.
-   
-   (1) The level of super contributions will be restricted to max contributions
-   (2) The contribution date will be set at "retirement date" (so based on number of years being retirement age less current age --- "years to retirement")
-   (3) Using this date, we can compare the outcome for each of the four investment scenarios, using else/if statement....  
-   
-   (3.1) we can simply compare CC against NCC on the basis of contributions tax.  15% for NCC, therefore if gross income is less than ($$income effective tax rate >15%) we select NCC. /// <<<scrap that idea.... let the formulas run and give the answer, ranking each option... ///
-   
-   (3.2)  If concessional contribution is selected, the MAXIMUM contribution will be the MINIMUM of (i) surplus income/savings, and (ii) max contribution less SG
-   (3.3)  Next, if there are concessional contributions we need to calculate the is there is a surplus in savings capacity.  
-      (3.32) We need to convert surplus income into pre-tax terms... ####  This will be the key driver for all projections...
-      - Ways to do this... 
-            * we could reference directly according to MTR tiers
-            *We could look at current gross income MTR, look at the distance between it ($$grossY) and next tier down, is this distance after-tax greater than the surplus?  If so, we are only working with one tax rate conversion.  Otherwise, we want to look at the next tax tier -- are concessional contributions still optimal?
-
-
---->        
-      
-            
+    
     
 <!--- end experimental table --->
             
@@ -256,7 +230,7 @@ Way to do this...
           <label for="expenses">
  Household Expenses ($):</label>
          <input type="text"id="expenses" name="expenses"
-         placeholder = "Gross Income (ex Super)" oninput= calculate()    >
+         placeholder = "ex debt costs" oninput= calculate()  size="10" maxlength="10"   >
   
         </fieldset><p>  </p>
   
@@ -278,27 +252,27 @@ Way to do this...
 
             <label for="testAA"> Spending:</label> 
              <input type =text value="0"
-             id="testAA" name=testAA oninput=calculate() ><br>
+             id="testAA" name=testAA oninput=calculate() size="7" maxlength="7"  ><br>
              
              
                
              <label for="testCA"> Cash savings ($):</label> 
              <input type =text value="0"
-             id="testCA" name=testCA oninput=calculate() ><br>
+             id="testCA" name=testCA oninput=calculate() size="7" maxlength="7"   ><br>
              
              
              
              
              <label for="testBB"> Investment (non super):</label> 
              <input type =text value="0"
-             id="testBA" name=testBA oninput=calculate() ><br>
+             id="testBA" name=testBA oninput=calculate()  size="7" maxlength="7"    ><br>
              
             
              
 
             <label for="nonc1"> NC Super Contributions ($):</label> 
              <input type =text  value="0" 
-             id="nonc1" name="nonc1" oninput=calculate() ><br>
+             id="nonc1" name="nonc1" oninput=calculate()  size="7" maxlength="7"    ><br>
 
 <!--- not yet working parts -->
 
@@ -310,7 +284,7 @@ Way to do this...
             
             <label for="debtpay1"> Debt repayments ($):</label> 
              <input type =text value="0"
-             id="debtpay1" name=debtpay1 oninput=calculate() ><br>
+             id="debtpay1" name=debtpay1 oninput=calculate() size="7" maxlength="7"   ><br>
            
  </fieldset> <p></p>
  
@@ -441,40 +415,40 @@ Assets & Liabilities
          </legend>
    
          <fieldset>
-               <label for="age">Your Age: #age</label>
-                 <input type="text"id="age" name="age" value="42" oninput= calculate()   >
+               <label for="age">Your Age:</label>
+                 <input type="text"id="age" name="age" placeholder="age" oninput= calculate() size="6" maxlength="5"  >
                <label for="sgc">SGC (%):</label>
-                 <input type="text"id="sgc" name="sgc" value="9.50" oninput= calculate()>
+                 <input type="text"id="sgc" name="sgc" value="9.50" oninput= calculate()  size="6" maxlength="5" >
           </fieldset>
     
                <label for="prob">Confidence Interval (%): </label>
                <input type="text"id="prob" name="prob"
-                placeholder="* 50% *"   oninput= calculate()  >
+                placeholder="*50%* - Mean Real"   oninput= calculate() size="6" maxlength="5" >
        
-             <label for="Target Retirement" >Tgt Retire Age: </label>
+             <label for="Target Retirement" >Target Retire Age: </label>
              <input type="text"id="retireage" name="retireage"
-             value="64" oninput= calculate()    >
+             value="64" oninput= calculate() size="6" maxlength="5"   >
              
       <!--- accepted volatility in retirement --- this will determine % of equity exposure --->      
             
             <label for="Retirement earnings rate" >Volatility in Retirement (%)</label>
              <input type="text"id="retirevol" name="retirevol"
-             value=5.0 oninput= calculate()    >
+             value=5.0 oninput= calculate() size="6" maxlength="5"   >
              
              <label for="Sharpe Ratio"> Sharpe Ratio in Retirement</label>
              <input type = "text" id="sharpe" name = "sharpe"
-            value=0.65 oninput= calculate() >
+            value=0.65 oninput= calculate() size="6" maxlength="5">
              
              
                 <label for="Fees_retire"> Fees in Retirement (%):</label>
              <input type = "text" id="fees_retire" name = "fees_retire"
-            value=0.75 oninput= calculate() >
+            value=0.75 oninput= calculate() size="6" maxlength="5" >
  
  <!---  INFLATION &&&&&& ___  --->
  
  <label for="inflation"> Inflation (%):</label>
              <input type = "text" id="inflation" name = "inflation"
-            value = "2.75" oninput= calculate()  >
+            value = "2.75" oninput= calculate() size="6" maxlength="5" >
  
  
  
@@ -807,7 +781,10 @@ Assets & Liabilities
  </p>
  
  
-<!--- testing chart --- div output -->
+ <!-- &&&&&&&& TEMPORILY STRIKE OUT THE TWO PROJECTION CHARTS ****** START
+ 
+ 
+<!--- testing chart --- div output (&& THIS PART DRIVES OUTPUT FOR TWO PROJECTION/VOLATILITY CHARTS)
 
 <div id="chartContainer" style="width: 55%; height: 300px;display: inline-block;"></div>
 <div id="chart2" style="width: 40%; height: 300px;display: inline-block;"></div>
@@ -817,19 +794,14 @@ Assets & Liabilities
         <div class="row">
         <div class= "output">
 
-              <fieldset>
-              <legend>
-     Data Check only (delete after use)  
-               </legend><p id="datacheck"></p></fieldset>
+   
+   
+         <fieldset  style=" background-color:#edefba  ;"  >
+              <legend style="color: gray">
+     Comments  
+               </legend><p id="datacheck" style="color: gray"></p></fieldset>
       
-          <fieldset><strong><span style="color:black" text-align="right">
-
-      Summary 
-
-          </span></strong><br>
-          <p id="tax" >
-          <p id="preservation">
-          </p> </fieldset></div> </div>
+          </div> </div>
 
 
 <!--- insert chart #2 - with volatility // outcomes --- we can adjust path of projection by directly changing variable inputs >> CC / NCC etc .... or, can we restrict variables to specific datasets?  If so, copy and paste code with change to headline variable ** check ** --->
@@ -1963,9 +1935,8 @@ else {bestuse = "You don't have any debt!  Given your income and tax rate, you s
 
 /* outputs -- for inner HTML ... -->*/
 
-document.getElementById("tax").innerHTML = "The tax payable on your gross income is approximately " + formatter.format(tx) + " with a Marginal Tax Rate of " + (mtr*100) + "% (an average rate rate of " + avtax.toFixed(2) + "%). " +  " Based on your age, " + preservationanswer + "."
 
-document.getElementById("datacheck").innerHTML = "Data check2: "  +   supercont + "   --- and debt ---" + debtrepay + "  Net return est: " + netrtn + "  super outcome:  " + superoutcome.toFixed(2)  + "   mortgage: " + mortgage + "  Mortgage outcome: " + debtoutcome.toFixed(2)
+document.getElementById("datacheck").innerHTML = "*** FOR TESTING PURPOSES ONLY    **CFO Opti_2 commentary, Data check2: "  +   supercont + "   --- and debt ---" + debtrepay.toFixed(0) + "  Net return est: " + netrtn.toFixed(0) + "  super outcome:  " + superoutcome.toFixed(2)  + "   mortgage: " + mortgage + "  Mortgage outcome: " + debtoutcome.toFixed(2)
 +
 "Data check only:  Bestinvestment : " +
 bestinvestment  
@@ -1979,6 +1950,8 @@ bestuse
 "<br/>" + "<br/>"
 + sgcrate + "%.  Total concessional contributions paid (SGC and voluntary extra): " + formatter.format(sgc) + ".  SGC Net: " + formatter.format(sgcpaid*0.85) + ".  Years to Pres: " + yearstopres   + "  Distance to contributions cap: " + formatter.format(distancetocontributionscap) + "  Volatility is set at (check for default levels)  " + volatility + "Super contribution options " + supercontributionoption + "  medicare rate: " + medicarerate + " medicare surcharge " + medicaresurcharge + "  Medicare payable ($) " + medicarepayable + " and MLS payable " + mlspayable + "  total marginal"+ totalmarginal
 
++
+ "The tax payable on your gross income is approximately " + formatter.format(tx) + " with a Marginal Tax Rate of " + (mtr*100) + "% (an average rate rate of " + avtax.toFixed(2) + "%). " +  " Based on your age, " + preservationanswer + "."
 
 
 
