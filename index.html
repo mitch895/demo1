@@ -167,6 +167,8 @@ output:hover { color: yellow}
  <div class = "row">
  <div class= "columnA">
  
+ <!-- @zed -->
+ <output id="testspread" ></output>
  
  <p>
  
@@ -184,7 +186,7 @@ output:hover { color: yellow}
  <fieldset  style=" background-color:OrangeRed  ;"  >
 
  <label   style="color:white ;"     for ="disclaimer" >   I understand this calculator is for general informational purposes only, and is not to be interpreted as, or relied upon as personal advice  <i>   (type "YES" to proceed) </i>  </label>
- <input type="text" id="disclaimer" name="disclaimer" placeholder="YES or NO" oninput=calculate()  size="6" maxlength="4"   >
+ <input type="text" id="disclaimer" name="disclaimer" value="YES"  oninput=calculate()  size="6" maxlength="4"   >
  </fieldset>
           
  
@@ -194,7 +196,7 @@ output:hover { color: yellow}
        </legend>
       <label for="income"  >Gross Income ($): </label>
        <input type="text"id="income" name="grossincome"  
-       placeholder="Income ex super" oninput= calculate()   size="10" maxlength="10"    >
+       value="39000" oninput= calculate()   size="10" maxlength="10"    >
  
  
        <label for="extrasuper"  ><i>Additional Super Cont's ($): </i></label>
@@ -324,7 +326,7 @@ Assets & Liabilities
              <input type =text value = "0" 
              id="superbalance" name=superbalance oninput=calculate() ><br>
              <label for="otherinvest"> Other Invest Assets ($):</label> 
-             <input type =text value="0" 
+             <input type =text value="120000" 
              id="otherinvest" name="otherinvest" oninput=calculate() ><br>
              <label for="debtbalance"> Debt balance ($):</label> 
              <input type =text  value = "0" 
@@ -392,7 +394,7 @@ Assets & Liabilities
                value = "4.72"  oninput= calculate() size="6" maxlength="5" ><br>
                <label for="volatility2">Asset Volatility2 (%): </label>
                <input type="text"id="volatility2" name="volatility2"
-               placeholder="WIP"   oninput= calculate() size="6" maxlength="5"><br>
+               value= "17.88"   oninput= calculate() size="6" maxlength="5"><br>
                <label for="turnover2">Turnover2 (%p.a.): </label>
                <input type="text"id="turnover2" name="turnover2"  
                oninput= calculate() 
@@ -416,14 +418,14 @@ Assets & Liabilities
    
          <fieldset>
                <label for="age">Your Age:</label>
-                 <input type="text"id="age" name="age" placeholder="age" oninput= calculate() size="6" maxlength="5"  >
+                 <input type="text"id="age" name="age" value="43" oninput= calculate() size="6" maxlength="5"  >
                <label for="sgc">SGC (%):</label>
                  <input type="text"id="sgc" name="sgc" value="9.50" oninput= calculate()  size="6" maxlength="5" >
           </fieldset>
     
                <label for="prob">Confidence Interval (%): </label>
                <input type="text"id="prob" name="prob"
-                placeholder="*50%* - Mean Real"   oninput= calculate() size="6" maxlength="5" >
+                value="1"   oninput= calculate() size="6" maxlength="5" >
        
              <label for="Target Retirement" >Target Retire Age: </label>
              <input type="text"id="retireage" name="retireage"
@@ -769,6 +771,8 @@ Assets & Liabilities
 
 <div id="chart3" style="width: 100%; height: 300px; align: center">
 </div>
+<div id="chart4" style="width: 100%; height: 300px; align: center">
+</div>
 <script scr="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
 <!---- $chart end --->
@@ -809,6 +813,7 @@ Assets & Liabilities
 
           <div id="chart3" style="height: 360px; width: 100%;"></div>
 
+ <div id="chart4" style="height: 360px; width: 100%;"></div>
 
 <!-- note chartcontainer2 above --->
 
@@ -1171,7 +1176,7 @@ chart2.render();
 
 document.getElementById("prob").addEventListener("mousemove", function(e) {
   
-  
+
 var x = document.getElementById("income").value;
 var mortgage = document.getElementById("mortgage").value; 
 var rtn = document.getElementById("return").value;
@@ -2460,7 +2465,7 @@ document.getElementById("nonsuperatretirement2").innerHTML =  formatter.format((
 /// value of existing balance
 ///***** recall relevant name..>>>>>  currentsuperatretirement = 
 var superatretirement2 =  Math.max(0,(  final_value_super2 + currentsuperatretirement  + (add_to_NCC22 || 0)    ))
-
+// @zed
 
 document.getElementById("superatretirement2").innerHTML =  formatter.format((  superatretirement2).toFixed(0))
 
@@ -3114,7 +3119,7 @@ document.getElementById("income_in_retirement3").innerHTML =  formatter.format(r
 		shared: true
 	},
   animationEnabled: true,
-  animationDuration: 1000,
+  animationDuration: 1400,
   backgroundColor: "lemonChiffon",
    
     
@@ -3207,72 +3212,176 @@ document.getElementById("income_in_retirement3").innerHTML =  formatter.format(r
     });
 
     chart3.render();
+ //////// Set stuff up for chart4 - volatility adjustments.  To do this we will apply volatility as (1+vol) as numerator for high, denominator for low.  Vol rate is square root of time; term used is today-to-retirmeent for current assets (ex cash and debt), and 0.5 x term (ie, mid-point) for assets with contributions.  Rate of vol will be adjusted for tax.
+ // This will mean we need to calculate results for super, non-super (2). For each scenario (3).  And current balance & contributions (2).  Therefore new calculations for 2 x 3 x 2 = 12 items.  We also need to scale volatility for each category, adjusting for taxes... 4 items.  TOTAL 16 new variables.
+ // FIRST calculate after-tax volatility for super and non-super.
+ // 
+ var sqrt_to_retire = Math.sqrt(yearstoretirement)
+ var sqrt_to_halfretire = Math.sqrt(yearstoretirement/2)
+ // now after-tax volatility...
+ /// for super:
+ var sd_from_mean = document.getElementById("prob").value;
+ var net_super_vol = ((vol*sd_from_mean) * (1-taxonsuper))/100
+ var net_invest_vol = ((vol2 * sd_from_mean) * (1-(taxrateonearnings/100)))/100
+ /// 
+ //////  NOW RECALL CURRENT SCENARIO VALUES.... &anchorx $anchorx
  
-  
-       
-       
-       
-       
-       
-       
-       
-       
-       
-       
-       ////////// $chart anchor end - stacked chart ////
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-
-///// &&&&&& ////      W O R K    F R O M   H E R E       ///  &&&&&&
+ //// net assets at retirement - current scenario //
+////////
+var netassetsatretirement1_high = (
+(currentsuperatretirement *(1+(net_invest_vol * sqrt_to_retire))  ) +   ( investment_value_s1   *(1+(net_invest_vol * sqrt_to_halfretire))  )
+-(currentdebtatretirement - investment_value_d1)  
++ (  currentnonsuperatretirement *(1+(net_invest_vol * sqrt_to_retire))) + (investment_value_i1   *(1+(net_invest_vol * sqrt_to_halfretire))   )
++ (  cashatretirement1   + investment_value_c1    )
+).toFixed(0)
 
 
+var netassetsatretirement1_low = (
+(currentsuperatretirement /(1+(net_super_vol * sqrt_to_retire))  ) +   ( investment_value_s1   /(1+(net_super_vol * sqrt_to_halfretire))  )
+-(currentdebtatretirement - investment_value_d1)  
++ (  currentnonsuperatretirement /(1+(net_invest_vol * sqrt_to_retire))) + (investment_value_i1   /(1+(net_invest_vol * sqrt_to_halfretire))   )
++ (  cashatretirement1   + investment_value_c1    )
+).toFixed(0)
 
-
-
-
-
-
-
-
-
-
-
-/////////////////////////////////////////////////// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& //////////////////////////////////// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& /////////////////////////////// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& ////////////////// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& ///////////////////////////////////// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& ////////////////////////////////////////////////// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& //////////////////////////////////// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& /////////////////////////////// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& /////////////////////// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& /////////////////////////////// &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& /////////
-
-
-//   ## IF OUR SURPLUS IS NEGATIVE, IT IS FUNDED BY CASH ///
-
-
-
-
+//////  SCENARIO 2 ENTRIES  ////
+/// because we have set neg restrictions... consider calculating variance only and adding/subtracting from mean...
+var super2_variance_high =  (  (final_value_super2 * ( 
+(1+(net_super_vol * sqrt_to_halfretire))) ) + (currentsuperatretirement *(1+(net_super_vol * sqrt_to_retire)))   + (add_to_NCC22 || 0) - superatretirement2)
+var nonsuper_variance_high =   ( 
+(final_value_invest2 * ( 
+(1+(net_invest_vol * sqrt_to_halfretire))) )
++ (currentnonsuperatretirement *(1+(net_invest_vol * sqrt_to_retire))) + (overflow_to_nonsuperinvest22 || 0 )   
+- nonsuperatretirement2 )  
+var scenario_two_variance_high = parseInt(nonsuper_variance_high) + parseInt( super2_variance_high)
+var netassetsatretirement2_high = parseInt(netassetsatretirement2) + parseInt(scenario_two_variance_high)
  
+/// SCENARIO TWO LOWS ///
+ var super2_variance_low =  (  (final_value_super2 / ( 
+(1+(net_super_vol * sqrt_to_halfretire))) ) + (currentsuperatretirement /(1+(net_super_vol * sqrt_to_retire)))   + (add_to_NCC22 || 0) - superatretirement2)
+var nonsuper_variance_low =   ( 
+(final_value_invest2 / ( 
+(1+(net_invest_vol * sqrt_to_halfretire))) )
++ (currentnonsuperatretirement / (1+(net_invest_vol * sqrt_to_retire))) + (overflow_to_nonsuperinvest22 || 0 )   
+- nonsuperatretirement2 ) 
+var scenario_two_variance_low = parseInt(nonsuper_variance_low) + parseInt( super2_variance_low)
+var netassetsatretirement2_low = parseInt(netassetsatretirement2) + parseInt(scenario_two_variance_low)
+ 
+ // @blue
+//
 
 
-/////////////////////
+//////
+
+ document.getElementById("testspread").innerHTML = "Print new variables: sqrt to retire: " + scenario_two_variance_low + "  and non super var low: " + nonsuper_variance_low
+
 
 
 /*
+
+
+
+*/
+
+//////////////////////////////////
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+       ////////////
+           var chart4 = new CanvasJS.Chart("chart4",
+    {
+    
+      toolTip:{
+		shared: true
+	},
+  animationEnabled: true,
+  animationDuration: 3000,
+  backgroundColor: "lemonChiffon",
+   
+    
+    /// $rogerAnchor
+    
+    //  title:{ text: "Summary of Results "  },  
+        
+      data: [
+      
+      
+      
+      
+     
+      
+    //////
+       
+      {        
+        type: "spline",
+        name: "Net Assets at Retirement (high)",
+        lineDashType: "dot",
+        lineThickness: 3,
+        markerSize: 14,
+        markerColor: "black",
+        
+        dataPoints: [
+        { label: "Current", x:1, y: parseInt(netassetsatretirement1_high  ) },
+        { label: "Cashflow Optimised",   x: 2, y: parseInt(  netassetsatretirement2_high    )},
+        {label: "Fully Optimised", x: 3, y: parseInt(netassetsatretirement3*1.4)},
+        ]
+      },
+      ///////
+      
+      
+        {        
+        type: "spline",
+        name: "Net Assets at Retirement (Mean)",
+        lineDashType: "dot",
+        lineThickness: 3,
+        markerSize: 14,
+        markerColor: "black",
+        
+        
+        dataPoints: [
+        { label: "Current", x:1, y: parseInt(netassetsatretirement1) },
+        { label: "Cashflow Optimised",   x: 2, y: parseInt(netassetsatretirement2)},
+        {label: "Fully Optimised", x: 3, y: parseInt(netassetsatretirement3)},
+        ]
+      },
+      
+      
+      
+      
+      ///
+             {        
+        type: "spline",
+        name: "Net Assets at Retirement (Low)",
+        lineDashType: "dot",
+        lineThickness: 3,
+        markerSize: 14,
+        markerColor: "black",    
+        dataPoints: [
+        { label: "Current", x:1, y: parseInt(netassetsatretirement1_low) },
+        { label: "Cashflow Optimised",   x: 2, y: parseInt(netassetsatretirement2/1.3)},
+        {label: "Fully Optimised", x: 3, y: parseInt(netassetsatretirement3/1.4)},
+        ]
+      },
+          
+       ]
+    });
+
+    chart4.render();
+       
+       ////////// $chart anchor end - stacked chart ////
+    
+//   ## IF OUR SURPLUS IS NEGATIVE, IT IS FUNDED BY CASH ///
+
+/*
 &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&*/
-
-
-
-
-
-
-
-
-////////////////////////////////////////
+//////////////////////////////
 //////  P E N S I O N   R E D U C T I O N  /////////
 ////////////////////////////////////////////
 //// REDUCTION is 1.5% of EXCESS, up to $800k above excess, then 0.6%.  Ensure min = 0.
