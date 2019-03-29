@@ -168,7 +168,7 @@ output:hover { color: yellow}
  <div class= "columnA">
  
  <!-- @zed -->
- <output id="testspread" ></output>
+
  
  <p>
  
@@ -197,6 +197,11 @@ output:hover { color: yellow}
       <label for="income"  >Gross Income ($): </label>
        <input type="text"id="income" name="grossincome"  
        value="39000" oninput= calculate()   size="10" maxlength="10"    >
+       
+         
+     <label for="sgc">SGC (%):</label>
+                 <input type="text"id="sgc" name="sgc" value="9.50" oninput= calculate()  size="6" maxlength="5" >  
+         
  
  
        <label for="extrasuper"  ><i>Additional Super Cont's ($): </i></label>
@@ -419,17 +424,18 @@ Assets & Liabilities
          <fieldset>
                <label for="age">Your Age:</label>
                  <input type="text"id="age" name="age" value="43" oninput= calculate() size="6" maxlength="5"  >
-               <label for="sgc">SGC (%):</label>
-                 <input type="text"id="sgc" name="sgc" value="9.50" oninput= calculate()  size="6" maxlength="5" >
+             
+              <label for="Target Retirement" >Target Retire Age: </label>
+             <input type="text"id="retireage" name="retireage"
+             value="64" oninput= calculate() size="6" maxlength="5"   >
+             
+             
           </fieldset>
     
-               <label for="prob">Confidence Interval (%): </label>
-               <input type="text"id="prob" name="prob"
-                value="1"   oninput= calculate() size="6" maxlength="5" >
-       
-         
-         <label style="color: blue; background-color: powderblue;">
-         Test form placement: </label>
+      
+    
+         <label>
+         Confidence Interval: </label>
           <select id="confidence_interval"  onchange="calculate()" >
             <option value="0.842"> 80% </option>
             <option value="1.04"> 85% </option>
@@ -439,17 +445,8 @@ Assets & Liabilities
             <option value="2.33"> 99% </option>
           </select>
 
-         
-         
-         
-         
-         
-         
-         
-         
-         <label for="Target Retirement" >Target Retire Age: </label>
-             <input type="text"id="retireage" name="retireage"
-             value="64" oninput= calculate() size="6" maxlength="5"   >
+           
+        
              
       <!--- accepted volatility in retirement --- this will determine % of equity exposure --->      
             
@@ -3327,8 +3324,7 @@ var netassetsatretirement3_low = parseInt(netassetsatretirement3) + parseInt(sce
 
 //////
 
- document.getElementById("testspread").innerHTML = "Print new variables: sqrt to retire: " + scenario_two_variance_low + "  and non super var low: " + nonsuper_variance_low
-
+ 
 
 
 /*
