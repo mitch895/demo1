@@ -156,9 +156,9 @@ output:hover { color: yellow}
 
  <!--- stuff for navigation menu -- just the links, design will come later --->
  <ul>
- <li> <a href=" http://www.insightws.com.au/adviser-tools.html   "class="active">Home</a></li>
+ <li> <a href=" http://www.insightws.com.au/adviser-tools.html"  target="_blank"  class="active">Home</a></li>
   <li> <a href=" https://www.lenntech.com/periodic/number/atomic-number.htm  "   class="active">Link1</a></li>
-   <li> <a href="https://en.wikipedia.org/wiki/Wikipedia"class="active">Link2</a> </li> 
+   <li> <a href="https://en.wikipedia.org/wiki/Wikipedia" target="_blank" target="_blank" class="active">Link2</a> </li> 
    </ul>
  
  <!--- data input fields --->
@@ -175,7 +175,7 @@ output:hover { color: yellow}
   <fieldset  style=" background-color:red  ;"  >
 
 <label   style="color:white ;"     for ="disclaimer" > <strong>  Password:</strong> </label>
- <input type="text" id="password" name="password" value="pass1" oninput=calculate() size="9" maxlength="9"   >
+ <input type="text" id="password" name="password" value="pass1" oninput=calculate() size="7" maxlength="7"   >
  </fieldset>
  
  
@@ -188,7 +188,28 @@ output:hover { color: yellow}
  <label   style="color:white ;"     for ="disclaimer" >   I understand this calculator is for general informational purposes only, and is not to be interpreted as, or relied upon as personal advice  <i>   (type "YES" to proceed) </i>  </label>
  <input type="text" id="disclaimer" name="disclaimer" value="YES"  oninput=calculate()  size="6" maxlength="4"   >
  </fieldset>
-          
+        
+ <p>
+ </p>
+   <fieldset> <legend><strong> Non-Financial Stuff</strong>
+  
+   </legend> 
+               <label for="age">Your Age:</label>
+                 <input type="text"id="age" name="age" value="43" oninput= calculate() size="6" maxlength="5"  >
+             
+              <label for="Target Retirement" >Target Retire Age: </label>
+             <input type="text"id="retireage" name="retireage"
+             value="64" oninput= calculate() size="6" maxlength="5"   >
+             
+             
+          </fieldset>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
  
  <fieldset>
      <legend><strong>
@@ -196,7 +217,7 @@ output:hover { color: yellow}
        </legend>
       <label for="income"  >Gross Income ($): </label>
        <input type="text"id="income" name="grossincome"  
-       value="39000" oninput= calculate()   size="7" maxlength="7"    >
+       value="65000" oninput= calculate()   size="7" maxlength="7"    >
        
          
      <label for="sgc">SGC (%):</label>
@@ -206,7 +227,7 @@ output:hover { color: yellow}
  
        <label for="extrasuper"  ><i>Additional Super Cont's ($): </i></label>
        <input type="text"id="extrasuper" name="extrasuper"
-       placeholder="Extra Concessional" oninput= calculate()   size="7" maxlength="7"    >
+       placeholder="$$$" oninput= calculate()   size="7" maxlength="7"    >
  
  </fieldset>
 
@@ -237,7 +258,7 @@ output:hover { color: yellow}
           <label for="expenses">
  Household Expenses ($):</label>
          <input type="text"id="expenses" name="expenses"
-         placeholder = "ex debt costs" oninput= calculate()  size="10" maxlength="10"   >
+         value = "40000" oninput= calculate()  size="7" maxlength="7"   >
   
         </fieldset><p>  </p>
   
@@ -331,7 +352,7 @@ Assets & Liabilities
              <input type =text value = "0" 
              id="superbalance" name=superbalance oninput=calculate() ><br>
              <label for="otherinvest"> Other Invest Assets ($):</label> 
-             <input type =text value="120000" 
+             <input type =text value="0" 
              id="otherinvest" name="otherinvest" oninput=calculate() ><br>
              <label for="debtbalance"> Debt balance ($):</label> 
              <input type =text  value = "0" 
@@ -421,21 +442,12 @@ Assets & Liabilities
    Investor Preferences
          </legend>
    
-         <fieldset>
-               <label for="age">Your Age:</label>
-                 <input type="text"id="age" name="age" value="43" oninput= calculate() size="6" maxlength="5"  >
-             
-              <label for="Target Retirement" >Target Retire Age: </label>
-             <input type="text"id="retireage" name="retireage"
-             value="64" oninput= calculate() size="6" maxlength="5"   >
-             
-             
-          </fieldset>
+       
     
       
     
          <label>
-         Confidence Interval: </label>
+         Confidence Interval <i></i>: </label>
           <select id="confidence_interval"  onchange="calculate()" >
             <option value="0.842"> 80% </option>
             <option value="1.04"> 85% </option>
@@ -473,9 +485,13 @@ Assets & Liabilities
  
  
  
- 
          </fieldset>
+         <p>
          
+         </p>
+         
+   
+   
  
  </div>
  
@@ -764,7 +780,7 @@ Assets & Liabilities
       
             </table>
             
-            *Age Pension is an estimate of the <i><strong> average </strong></i> received over the term of your retirement, based on eligibility requirements (age, assets, income), your planned retirement date, and expected life expectancy calculated from the date of your retirement. 
+            
             <p> </p>
           
           <!--- testing --->
@@ -781,6 +797,8 @@ Assets & Liabilities
 <button onclick="myFunction()">Print this page</button>
          
       
+      
+      
       </div></div></div1>
 
 
@@ -795,6 +813,27 @@ Assets & Liabilities
 
 <div id="chart4" style="width: 100%; height: 300px; align: center">
 </div>
+
+<legend>
+<strong><ul style="color: gray; background-color:white ">
+Assumptions:</ul></strong></legend><p>
+
+<font size="2" style="color:gray">
+
+
+
+[1] Life Expectancy is based on female life expectancy from date of retirement (based on Australian Life Tables, 2019)
+[2] Scenario analysis is based on modified volatility paths adjusted by square-root-of-time and adjusted for taxes.
+[3] All returns and projections are Net Real (after tax, fees and inflation).  The values therefore represent expected purchasing power at retirement.  We make the assumption that above-normal gains qualify for a General Capital Gains Tax Discount, while above-normal losses (downside) are used to directly reduce taxable gains on assets within the same portfolio category.
+[4] Retirement income protections are calculated on the assumption that capital is exhausted at the mean life expectancy (from retirement), with returns calculated net of fees and taxes and returns scaled to selected risk preference and Sharpe Ratio.  Investors should consider that their capital may be exhausted sooner due to sequencing risk (volatility path), and living longer than anticipated.
+[5] Model does not account for changes to tax rates, rules, or tax structure; for example, tax on superannuation earnings is held as a constant, based on return, turnover and fee inputs.  No discount has been given for portfolios converted to Account Based Pensions at qualifying age.
+[6] Income,expenses and statutory taxes assumed to track inflation.
+[7] Age Pension is an estimate of the <i> average </i> received over the term of your retirement, based on eligibility requirements (age, assets, income), your planned retirement date, and expected life expectancy calculated from the date of your retirement.  Rates are based on single homeowner, current to March 2019.  Non-homeowners or couples will receive a higher average rate of Pension due to different asset and income tests and payment rates. 
+[8] Personal assets have been excluded from calculations.  This includes the family home.
+[9] Debt is assumed to be fully non-deductible.
+[10] Tax, Medicare, Surcharge and LITO rates are current to March 2019.
+[11] Well done reading all the fine print.
+</font>
 <script scr="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
 <!---- $chart end --->
@@ -821,11 +860,12 @@ Assets & Liabilities
         <div class= "output">
 
    
-   
+   <!--
          <fieldset  style=" background-color:#edefba  ;"  >
               <legend style="color: gray">
      Comments  
                </legend><p id="datacheck" style="color: gray"></p></fieldset>
+               -->
       
           </div> </div>
 
@@ -1963,22 +2003,7 @@ else {bestuse = "You don't have any debt!  Given your income and tax rate, you s
 /* outputs -- for inner HTML ... -->*/
 
 
-document.getElementById("datacheck").innerHTML = "*** FOR TESTING PURPOSES ONLY    **CFO Opti_2 commentary, Data check2: "  +   supercont + "   --- and debt ---" + debtrepay.toFixed(0) + "  Net return est: " + netrtn.toFixed(0) + "  super outcome:  " + superoutcome.toFixed(2)  + "   mortgage: " + mortgage + "  Mortgage outcome: " + debtoutcome.toFixed(2)
-+
-"Data check only:  Bestinvestment : " +
-bestinvestment  
-+ 
-"<br/>"
-+ 
-"<br/>"
-+ 
-bestuse
-+
-"<br/>" + "<br/>"
-+ sgcrate + "%.  Total concessional contributions paid (SGC and voluntary extra): " + formatter.format(sgc) + ".  SGC Net: " + formatter.format(sgcpaid*0.85) + ".  Years to Pres: " + yearstopres   + "  Distance to contributions cap: " + formatter.format(distancetocontributionscap) + "  Volatility is set at (check for default levels)  " + volatility + "Super contribution options " + supercontributionoption + "  medicare rate: " + medicarerate + " medicare surcharge " + medicaresurcharge + "  Medicare payable ($) " + medicarepayable + " and MLS payable " + mlspayable + "  total marginal"+ totalmarginal
-
-+
- "The tax payable on your gross income is approximately " + formatter.format(tx) + " with a Marginal Tax Rate of " + (mtr*100) + "% (an average rate rate of " + avtax.toFixed(2) + "%). " +  " Based on your age, " + preservationanswer + "."
+// document.getElementById("datacheck").innerHTML = "*** FOR TESTING PURPOSES ONLY    **CFO Opti_2 commentary, Data check2: "  +   supercont + "   --- and debt ---" + debtrepay.toFixed(0) + "  Net return est: " + netrtn.toFixed(0) + "  super outcome:  " + superoutcome.toFixed(2)  + "   mortgage: " + mortgage + "  Mortgage outcome: " + debtoutcome.toFixed(2) + "Data check only:  Bestinvestment : " + bestinvestment   +  "<br/>" +  "<br/>" +  bestuse + "<br/>" + "<br/>"+ sgcrate + "%.  Total concessional contributions paid (SGC and voluntary extra): " + formatter.format(sgc) + ".  SGC Net: " + formatter.format(sgcpaid*0.85) + ".  Years to Pres: " + yearstopres   + "  Distance to contributions cap: " + formatter.format(distancetocontributionscap) + "  Volatility is set at (check for default levels)  " + volatility + "Super contribution options " + supercontributionoption + "  medicare rate: " + medicarerate + " medicare surcharge " + medicaresurcharge + "  Medicare payable ($) " + medicarepayable + " and MLS payable " + mlspayable + "  total marginal"+ totalmarginal + "The tax payable on your gross income is approximately " + formatter.format(tx) + " with a Marginal Tax Rate of " + (mtr*100) + "% (an average rate rate of " + avtax.toFixed(2) + "%). " +  " Based on your age, " + preservationanswer + "."
 
 
 
