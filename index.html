@@ -2200,7 +2200,7 @@ document.getElementById("debtatretirement1").innerHTML =
 var cashatretirement1_current = ( cashatretirement1   + investment_value_c1 + debt_overflow_to_cash_net        )
 
 document.getElementById("cashatretirement1").innerHTML = 
-formatter.format((cashatretirement1   + investment_value_c1 + debt_overflow_to_cash_net      ).toFixed(0)) 
+formatter.format((cashatretirement1_current      ).toFixed(0)) 
 
 // super at retirement -- output current scenario
 var superatretirement1 = ( currentsuperatretirement + investment_value_s1  )
@@ -2217,10 +2217,10 @@ formatter.format((currentnonsuperatretirement + investment_value_i1).toFixed(0))
 //// net assets at retirement - current scenario //
 ////////
 var netassetsatretirement1 = (
-(currentsuperatretirement + investment_value_s1)
--(currentdebtatretirement - investment_value_d1)  
-+ (  currentnonsuperatretirement + investment_value_i1)
-+ (  cashatretirement1   + investment_value_c1    )
+(superatretirement1)
+-(  final_value_debt1_used )  
++ (  nonsuperatretirement1)
++ ( cashatretirement1_current    )
 ).toFixed(0)
 ////////
 document.getElementById("netassetsatretirement1").innerHTML = formatter.format(netassetsatretirement1) 
