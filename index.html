@@ -427,7 +427,27 @@ Assets & Liabilities
                <input type="text"id="prob" name="prob"
                 value="1"   oninput= calculate() size="6" maxlength="5" >
        
-             <label for="Target Retirement" >Target Retire Age: </label>
+         
+         <label style="color: blue; background-color: powderblue;">
+         Test form placement: </label>
+          <select id="confidence_interval"  onchange="calculate()" >
+            <option value="0.842"> 80% </option>
+            <option value="1.04"> 85% </option>
+            <option value="1.282"> 90% </option>
+            <option value="1.65"> 95% </option>
+            <option value="1.89"> 97% </option>
+            <option value="2.33"> 99% </option>
+          </select>
+
+         
+         
+         
+         
+         
+         
+         
+         
+         <label for="Target Retirement" >Target Retire Age: </label>
              <input type="text"id="retireage" name="retireage"
              value="64" oninput= calculate() size="6" maxlength="5"   >
              
@@ -716,7 +736,7 @@ Assets & Liabilities
                   <tr></tr>  
       
        <td>
-               Age Pension ($)</td>
+               Age Pension ($)*</td>
                   <td>
                <output id="pension_est1"></output>     </td>
                 <td>   <output id="pension_est2"></output> </td>
@@ -746,6 +766,8 @@ Assets & Liabilities
       
       
             </table>
+            
+            *Age Pension is an estimate of the <i><strong> average </strong></i> received over the term of your retirement, based on eligibility requirements (age, assets, income), your planned retirement date, and expected life expectancy calculated from the date of your retirement. 
             <p> </p>
           
           <!--- testing --->
@@ -767,10 +789,13 @@ Assets & Liabilities
 
  
  
- <!---- $chart start experiment stacked outcome --->
+ <!---- $chart start experiment stacked outcome - @purple -->
 
 <div id="chart3" style="width: 100%; height: 300px; align: center">
 </div>
+
+
+
 <div id="chart4" style="width: 100%; height: 300px; align: center">
 </div>
 <script scr="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
@@ -3220,7 +3245,7 @@ document.getElementById("income_in_retirement3").innerHTML =  formatter.format(r
  var sqrt_to_halfretire = Math.sqrt(yearstoretirement/2)
  // now after-tax volatility...
  /// for super:
- var sd_from_mean = document.getElementById("prob").value;
+ var sd_from_mean = document.getElementById("confidence_interval").value;
  var net_super_vol = ((vol*sd_from_mean) * (1-taxonsuper))/100
  var net_invest_vol = ((vol2 * sd_from_mean) * (1-(taxrateonearnings/100)))/100
  /// 
@@ -3267,6 +3292,36 @@ var scenario_two_variance_low = parseInt(nonsuper_variance_low) + parseInt( supe
 var netassetsatretirement2_low = parseInt(netassetsatretirement2) + parseInt(scenario_two_variance_low)
  
  // @blue
+ 
+ ////  SCENARIO 3 ENTRIES ////////////
+ 
+ var super3_variance_high =  (  (final_value_super3 * ( 
+(1+(net_super_vol * sqrt_to_halfretire))) ) + (currentsuperatretirement *(1+(net_super_vol * sqrt_to_retire)))   + (add_to_NCC33 || 0) - superatretirement3)
+var nonsuper3_variance_high =   ( 
+(final_value_invest3 * ( 
+(1+(net_invest_vol * sqrt_to_halfretire))) )
++ (currentnonsuperatretirement *(1+(net_invest_vol * sqrt_to_retire))) + (overflow_to_nonsuperinvest33 || 0 )   
+- nonsuperatretirement3 )  
+var scenario_three_variance_high = parseInt(nonsuper3_variance_high) + parseInt( super3_variance_high)
+var netassetsatretirement3_high = parseInt(netassetsatretirement3) + parseInt(scenario_three_variance_high)
+ 
+ 
+ /// SCENARIO THREE LOWS ///
+ var super3_variance_low =  (  (final_value_super3 / ( 
+(1+(net_super_vol * sqrt_to_halfretire))) ) + (currentsuperatretirement /(1+(net_super_vol * sqrt_to_retire)))   + (add_to_NCC33 || 0) - superatretirement3)
+var nonsuper3_variance_low =   ( 
+(final_value_invest3 / ( 
+(1+(net_invest_vol * sqrt_to_halfretire))) )
++ (currentnonsuperatretirement / (1+(net_invest_vol * sqrt_to_retire))) + (overflow_to_nonsuperinvest33 || 0 )   
+- nonsuperatretirement3 ) 
+var scenario_three_variance_low = parseInt(nonsuper_variance_low) + parseInt( super3_variance_low)
+var netassetsatretirement3_low = parseInt(netassetsatretirement3) + parseInt(scenario_three_variance_low)
+ 
+ // @blue
+ 
+ 
+ 
+ 
 //
 
 
@@ -3312,25 +3367,20 @@ var netassetsatretirement2_low = parseInt(netassetsatretirement2) + parseInt(sce
         
       data: [
       
-      
-      
-      
-     
-      
-    //////
-       
+        
       {        
         type: "spline",
-        name: "Net Assets at Retirement (high)",
-        lineDashType: "dot",
+        name: "Net Assets at Retirement (High)",
+         // lineDashType: "shortDot",
         lineThickness: 3,
-        markerSize: 14,
-        markerColor: "black",
+        markerSize: 7,
+        markerColor: "#1d8420",
+        lineColor: "#cceacd",
         
         dataPoints: [
         { label: "Current", x:1, y: parseInt(netassetsatretirement1_high  ) },
         { label: "Cashflow Optimised",   x: 2, y: parseInt(  netassetsatretirement2_high    )},
-        {label: "Fully Optimised", x: 3, y: parseInt(netassetsatretirement3*1.4)},
+        {label: "Fully Optimised", x: 3, y: parseInt(  netassetsatretirement3_high   )},
         ]
       },
       ///////
@@ -3339,10 +3389,12 @@ var netassetsatretirement2_low = parseInt(netassetsatretirement2) + parseInt(sce
         {        
         type: "spline",
         name: "Net Assets at Retirement (Mean)",
-        lineDashType: "dot",
+        //lineDashType: "dot",
         lineThickness: 3,
-        markerSize: 14,
-        markerColor: "black",
+        markerSize: 10,
+        markerColor: "#2c095e",
+        lineColor: "#d9d9e0",
+        indexlabelColor: "blue",
         
         
         dataPoints: [
@@ -3352,21 +3404,20 @@ var netassetsatretirement2_low = parseInt(netassetsatretirement2) + parseInt(sce
         ]
       },
       
-      
-      
-      
-      ///
              {        
         type: "spline",
         name: "Net Assets at Retirement (Low)",
-        lineDashType: "dot",
+      //  lineDashType: "shortDot",
         lineThickness: 3,
-        markerSize: 14,
-        markerColor: "black",    
+        markerSize: 7,
+         markerColor: "#a0213b",
+        lineColor: "#edaab8",
+        
+        
         dataPoints: [
         { label: "Current", x:1, y: parseInt(netassetsatretirement1_low) },
-        { label: "Cashflow Optimised",   x: 2, y: parseInt(netassetsatretirement2/1.3)},
-        {label: "Fully Optimised", x: 3, y: parseInt(netassetsatretirement3/1.4)},
+        { label: "Cashflow Optimised",   x: 2, y: parseInt(netassetsatretirement2_low)},
+        {label: "Fully Optimised", x: 3, y: parseInt(netassetsatretirement3_low)},
         ]
       },
           
